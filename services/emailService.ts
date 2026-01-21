@@ -12,16 +12,21 @@ export interface SendPurchaseConfirmationParams {
 export const sendPurchaseConfirmation = async (params: SendPurchaseConfirmationParams): Promise<void> => {
   const { customerEmail, customerName, items } = params;
 
+  console.log('📧 sendPurchaseConfirmation called for:', customerEmail);
+  console.log('📧 Has Resend client:', !!resend);
+
   if (!resend) {
-    console.error('❌ RESEND_API_KEY is not configured. Email will not be sent.');
+    const errorMsg = 'RESEND_API_KEY is not configured. Email will not be sent.';
+    console.error('❌', errorMsg);
     throw new Error('Email service not configured');
   }
 
   try {
+    console.log('📧 Sending email via Resend...');
     // Note: Update the 'from' address to your verified domain in production
     // For testing, you can use: onboarding@resend.dev
     // For production: 'MindCraft <noreply@yourdomain.com>'
-    await resend.emails.send({
+    const result = await resend.emails.send({
       from: 'MindCraft <onboarding@resend.dev>',
       to: customerEmail,
       subject: 'Purchase Confirmation from MindCraft',
@@ -76,9 +81,12 @@ export const sendPurchaseConfirmation = async (params: SendPurchaseConfirmationP
       `,
     });
 
-    console.log('✅ Purchase confirmation email sent to:', customerEmail);
-  } catch (error) {
-    console.error('❌ Failed to send purchase confirmation email:', error);
+    console.log('✅ Email sent successfully to:', customerEmail);
+    console.log('✅ Resend result:', JSON.stringify(result));
+  } catch (error: any) {
+    console.error('❌ Failed to send purchase confirmation email');
+    console.error('❌ Error message:', error.message);
+    console.error('❌ Error details:', error);
     throw error;
   }
 };
