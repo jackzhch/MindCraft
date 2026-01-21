@@ -274,7 +274,7 @@ vercel dev       # Runs both frontend and serverless functions
 
 ## 📚 Additional Resources
 
-- [Email Setup Guide](./EMAIL_SETUP.md) - Complete guide for email notifications
+- [Webhook Setup Guide](./WEBHOOK_SETUP.md) - Complete guide for webhooks and email notifications
 - [Stripe Documentation](https://stripe.com/docs)
 - [Resend Documentation](https://resend.com/docs)
 - [Vercel Documentation](https://vercel.com/docs)
