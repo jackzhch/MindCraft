@@ -6,17 +6,19 @@ import { sendPurchaseConfirmation } from '../services/emailService';
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY || '';
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || '';
 
-// Initialize Stripe client only if we have a valid key
-// Use a placeholder if key is missing to prevent initialization errors
-let stripe: Stripe;
-try {
-  stripe = new Stripe(stripeSecretKey || 'sk_test_placeholder', {
-    apiVersion: '2025-12-15.clover',
-  });
-} catch (error) {
-  console.error('⚠️ Failed to initialize Stripe client:', error);
-  // Create a dummy instance - will fail gracefully later with proper error message
-  stripe = null as any;
+// Lazy-initialize Stripe client to avoid module-level crashes
+let stripeInstance: Stripe | null = null;
+
+function getStripe(): Stripe {
+  if (!stripeInstance && stripeSecretKey) {
+    stripeInstance = new Stripe(stripeSecretKey, {
+      apiVersion: '2025-12-15.clover',
+    });
+  }
+  if (!stripeInstance) {
+    throw new Error('Stripe is not initialized');
+  }
+  return stripeInstance;
 }
 
 export const config = {
@@ -74,6 +76,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     let event: Stripe.Event;
 
     try {
+      const stripe = getStripe();
       event = stripe.webhooks.constructEvent(buf, sig, webhookSecret);
       console.log('✅ Webhook signature verified');
     } catch (err: any) {
