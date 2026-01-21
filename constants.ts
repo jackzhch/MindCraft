@@ -5,7 +5,7 @@ export const PRODUCTS: Product[] = [
     id: 'p1',
     title: 'The Second Brain OS',
     description: 'A comprehensive Notion workspace designed to capture, organize, and distill your digital life. Based on PARA methodology.',
-    price: 49.00,
+    price: 1.00,
     category: 'System',
     image: 'https://picsum.photos/seed/secondbrain/800/600',
     features: ['Project Tracker', 'Resource Database', 'Quick Capture Dashboard']
