@@ -42,17 +42,18 @@ export const createCheckoutSession = async (params: CreateCheckoutSessionParams)
 };
 
 export const redirectToCheckout = async (params: CreateCheckoutSessionParams): Promise<void> => {
-  const stripe = await getStripe();
-  if (!stripe) {
-    throw new Error('Stripe is not configured');
-  }
-
-  const { sessionId } = await createCheckoutSession(params);
-  
-  const { error } = await stripe.redirectToCheckout({ sessionId });
-  
-  if (error) {
-    throw error;
+  try {
+    const { url } = await createCheckoutSession(params);
+    
+    if (!url) {
+      throw new Error('No checkout URL returned from server');
+    }
+    
+    // Redirect directly to the Stripe Checkout URL
+    window.location.href = url;
+  } catch (error: any) {
+    console.error('Checkout error:', error);
+    throw new Error(error.message || 'Failed to redirect to checkout');
   }
 };
 
