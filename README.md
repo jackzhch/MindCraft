@@ -91,7 +91,7 @@ Open [http://localhost:5173](http://localhost:5173)
 
 ### Quick Deploy
 
-```bash
+```bash  
 # Push to GitHub
 git add .
 git commit -m "Initial commit"
