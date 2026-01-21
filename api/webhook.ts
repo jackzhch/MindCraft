@@ -41,17 +41,12 @@ interface SendPurchaseConfirmationParams {
 async function sendPurchaseConfirmation(params: SendPurchaseConfirmationParams): Promise<void> {
   const { customerEmail, customerName, items } = params;
 
-  console.log('📧 sendPurchaseConfirmation called for:', customerEmail);
-  console.log('📧 Has Resend client:', !!resend);
-
   if (!resend) {
-    const errorMsg = 'RESEND_API_KEY is not configured. Email will not be sent.';
-    console.error('❌', errorMsg);
+    console.error('❌ RESEND_API_KEY is not configured. Email will not be sent.');
     throw new Error('Email service not configured');
   }
 
   try {
-    console.log('📧 Sending email via Resend...');
     const result = await resend.emails.send({
       from: 'MindCraft <onboarding@resend.dev>',
       to: customerEmail,
@@ -107,12 +102,9 @@ async function sendPurchaseConfirmation(params: SendPurchaseConfirmationParams):
       `,
     });
 
-    console.log('✅ Email sent successfully to:', customerEmail);
-    console.log('✅ Resend result:', JSON.stringify(result));
+    console.log('✅ Purchase confirmation email sent to:', customerEmail);
   } catch (error: any) {
-    console.error('❌ Failed to send purchase confirmation email');
-    console.error('❌ Error message:', error.message);
-    console.error('❌ Error details:', error);
+    console.error('❌ Failed to send email:', error.message);
     throw error;
   }
 }
@@ -127,20 +119,10 @@ async function buffer(readable: any) {
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
-    console.log('🔔 Webhook endpoint called');
-    console.log('Method:', req.method);
-    
-    // Check environment variables first
-    console.log('📝 Environment variables status:');
-    console.log('  STRIPE_SECRET_KEY:', stripeSecretKey ? '✅ Set' : '❌ Missing');
-    console.log('  STRIPE_WEBHOOK_SECRET:', webhookSecret ? '✅ Set' : '❌ Missing');
-    console.log('  RESEND_API_KEY:', process.env.RESEND_API_KEY ? '✅ Set' : '❌ Missing');
-    
     if (req.method !== 'POST') {
       return res.status(405).json({ 
         error: 'Method not allowed',
-        message: 'This endpoint only accepts POST requests from Stripe',
-        method: req.method 
+        message: 'This endpoint only accepts POST requests from Stripe'
       });
     }
 
@@ -162,48 +144,38 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({ error: 'Missing stripe-signature header' });
     }
 
-    console.log('🔐 Verifying webhook signature...');
     let event: Stripe.Event;
 
     try {
       const stripe = getStripe();
       event = stripe.webhooks.constructEvent(buf, sig, webhookSecret);
-      console.log('✅ Webhook signature verified');
     } catch (err: any) {
       console.error('❌ Webhook signature verification failed:', err.message);
       return res.status(400).json({ error: `Webhook Error: ${err.message}` });
     }
 
     // Handle the event
-    console.log('📦 Processing event type:', event.type);
-    
     switch (event.type) {
       case 'checkout.session.completed': {
         const session = event.data.object as Stripe.Checkout.Session;
-        console.log('💳 Payment successful:', session.id);
+        console.log('✅ Payment successful:', session.id);
         
         const metadata = session.metadata;
         const customerEmail = session.customer_details?.email;
         const customerName = session.customer_details?.name;
         
-        console.log('👤 Customer:', customerEmail);
-        console.log('🛒 Items:', metadata?.items);
-        
         // Send purchase confirmation email
         if (customerEmail) {
           try {
-            console.log('📧 Attempting to send confirmation email...');
             await sendPurchaseConfirmation({
               customerEmail,
               customerName: customerName || undefined,
               items: metadata?.items,
             });
-            console.log('✅ Order fulfillment completed for:', customerEmail);
+            console.log('✅ Order fulfilled for:', customerEmail);
           } catch (error: any) {
-            console.error('❌ Failed to send confirmation email:', error);
-            console.error('❌ Email error details:', error.message, error.stack);
-            // Log error but don't fail the webhook
-            // Stripe should still receive a 200 OK
+            console.error('❌ Failed to send confirmation email:', error.message);
+            // Log error but don't fail the webhook - Stripe should still receive 200 OK
           }
         } else {
           console.error('⚠️ No customer email found in session');
@@ -213,25 +185,19 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       }
       case 'payment_intent.payment_failed': {
         const paymentIntent = event.data.object as Stripe.PaymentIntent;
-        console.error('Payment failed:', paymentIntent.id);
+        console.error('❌ Payment failed:', paymentIntent.id);
         break;
       }
       default:
         console.log(`Unhandled event type: ${event.type}`);
     }
 
-    console.log('✅ Webhook processed successfully, returning 200');
     return res.status(200).json({ received: true });
   } catch (error: any) {
-    // Catch any unhandled errors to prevent 500 responses
-    console.error('❌❌❌ UNHANDLED ERROR IN WEBHOOK HANDLER ❌❌❌');
-    console.error('Error message:', error.message);
-    console.error('Error stack:', error.stack);
-    console.error('Error details:', error);
+    console.error('❌ Unhandled error in webhook handler:', error.message);
     return res.status(500).json({ 
       error: 'Internal server error',
-      message: error.message,
-      stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+      message: error.message
     });
   }
 }
