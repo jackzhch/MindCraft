@@ -1,11 +1,17 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ChatMessage } from '../types';
-import { sendMessageToGemini } from '../services/geminiService';
+import { sendMessageToGemini, isAIAvailable } from '../services/geminiService';
 
 const GeminiAssistant: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const aiAvailable = isAIAvailable();
   const [messages, setMessages] = useState<ChatMessage[]>([
-    { role: 'model', text: 'Hello. I am Mind. Tell me about your current workflow challenges, and I can recommend the right tools.' }
+    { 
+      role: 'model', 
+      text: aiAvailable 
+        ? 'Hello. I am Mind. Tell me about your current workflow challenges, and I can recommend the right tools.' 
+        : 'Hello! The AI assistant is currently in demo mode. To enable full AI capabilities, the site administrator needs to configure the GEMINI_API_KEY. You can still browse our products below!'
+    }
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);

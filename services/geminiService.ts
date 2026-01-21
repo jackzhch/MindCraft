@@ -1,12 +1,23 @@
 import { GoogleGenAI } from "@google/genai";
 import { PRODUCTS } from '../constants';
 
-// Initialize the API client
-const apiKey = process.env.API_KEY || ''; 
-// Note: In a real app, we'd handle the missing key more gracefully in the UI. 
-// For this demo, we assume the environment injects it.
+// Lazy-load the API client to prevent app crashes when API key is missing
+let ai: any = null;
 
-const ai = new GoogleGenAI({ apiKey });
+const getApiKey = (): string | null => {
+  return process.env.API_KEY || process.env.GEMINI_API_KEY || null;
+};
+
+const initializeAI = () => {
+  const apiKey = getApiKey();
+  if (!apiKey) {
+    return null;
+  }
+  if (!ai) {
+    ai = new GoogleGenAI({ apiKey });
+  }
+  return ai;
+};
 
 const PRODUCT_CONTEXT = PRODUCTS.map(p => 
   `ID: ${p.id}, Name: ${p.title}, Price: $${p.price}, Category: ${p.category}, Description: ${p.description}`
@@ -28,9 +39,23 @@ Rules:
 6. Keep responses under 100 words unless detailed advice is requested.
 `;
 
+export const isAIAvailable = (): boolean => {
+  return getApiKey() !== null;
+};
+
 export const sendMessageToGemini = async (history: {role: 'user' | 'model', text: string}[], message: string): Promise<string> => {
+  // Check if API key is available
+  if (!isAIAvailable()) {
+    return "I'm sorry, but the AI assistant is currently unavailable. The administrator needs to configure the GEMINI_API_KEY to enable this feature.";
+  }
+
   try {
-    const chat = ai.chats.create({
+    const aiClient = initializeAI();
+    if (!aiClient) {
+      return "I'm sorry, I couldn't initialize the AI service. Please contact support.";
+    }
+
+    const chat = aiClient.chats.create({
       model: 'gemini-3-flash-preview',
       config: {
         systemInstruction: SYSTEM_INSTRUCTION,
