@@ -2,19 +2,21 @@ import type { VercelRequest, VercelResponse } from '@vercel/node';
 import Stripe from 'stripe';
 import { sendPurchaseConfirmation } from '../services/emailService';
 
-// Initialize Stripe with secret key
+// Get environment variables
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY || '';
-if (!stripeSecretKey) {
-  console.error('⚠️ WARNING: STRIPE_SECRET_KEY is not set at module initialization');
-}
-
-const stripe = new Stripe(stripeSecretKey, {
-  apiVersion: '2025-12-15.clover',
-});
-
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || '';
-if (!webhookSecret) {
-  console.error('⚠️ WARNING: STRIPE_WEBHOOK_SECRET is not set at module initialization');
+
+// Initialize Stripe client only if we have a valid key
+// Use a placeholder if key is missing to prevent initialization errors
+let stripe: Stripe;
+try {
+  stripe = new Stripe(stripeSecretKey || 'sk_test_placeholder', {
+    apiVersion: '2025-12-15.clover',
+  });
+} catch (error) {
+  console.error('⚠️ Failed to initialize Stripe client:', error);
+  // Create a dummy instance - will fail gracefully later with proper error message
+  stripe = null as any;
 }
 
 export const config = {
@@ -33,16 +35,32 @@ async function buffer(readable: any) {
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   try {
-    console.log('🔔 Webhook received');
+    console.log('🔔 Webhook endpoint called');
+    console.log('Method:', req.method);
+    
+    // Check environment variables first
+    console.log('📝 Environment variables status:');
+    console.log('  STRIPE_SECRET_KEY:', stripeSecretKey ? '✅ Set' : '❌ Missing');
+    console.log('  STRIPE_WEBHOOK_SECRET:', webhookSecret ? '✅ Set' : '❌ Missing');
+    console.log('  RESEND_API_KEY:', process.env.RESEND_API_KEY ? '✅ Set' : '❌ Missing');
     
     if (req.method !== 'POST') {
-      return res.status(405).json({ error: 'Method not allowed' });
+      return res.status(405).json({ 
+        error: 'Method not allowed',
+        message: 'This endpoint only accepts POST requests from Stripe',
+        method: req.method 
+      });
     }
 
-    console.log('📝 Checking environment variables...');
-    console.log('Has STRIPE_SECRET_KEY:', !!process.env.STRIPE_SECRET_KEY);
-    console.log('Has STRIPE_WEBHOOK_SECRET:', !!process.env.STRIPE_WEBHOOK_SECRET);
-    console.log('Has RESEND_API_KEY:', !!process.env.RESEND_API_KEY);
+    if (!stripeSecretKey) {
+      console.error('❌ STRIPE_SECRET_KEY is not configured');
+      return res.status(500).json({ error: 'Stripe secret key not configured' });
+    }
+
+    if (!webhookSecret) {
+      console.error('❌ STRIPE_WEBHOOK_SECRET is not configured');
+      return res.status(500).json({ error: 'Webhook secret not configured' });
+    }
 
     const buf = await buffer(req);
     const sig = req.headers['stripe-signature'];
@@ -50,11 +68,6 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     if (!sig) {
       console.error('❌ Missing stripe-signature header');
       return res.status(400).json({ error: 'Missing stripe-signature header' });
-    }
-
-    if (!webhookSecret) {
-      console.error('❌ STRIPE_WEBHOOK_SECRET is not configured');
-      return res.status(500).json({ error: 'Webhook secret not configured' });
     }
 
     console.log('🔐 Verifying webhook signature...');
