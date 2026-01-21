@@ -1,5 +1,6 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import Stripe from 'stripe';
+import { sendPurchaseConfirmation } from '../services/emailService';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
   apiVersion: '2025-12-15.clover',
@@ -48,18 +49,30 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       const session = event.data.object as Stripe.Checkout.Session;
       console.log('Payment successful:', session.id);
       
-      // Here you would:
-      // 1. Fulfill the order (send digital products via email)
-      // 2. Update your database
-      // 3. Send confirmation email
-      
       const metadata = session.metadata;
       const customerEmail = session.customer_details?.email;
+      const customerName = session.customer_details?.name;
       
       console.log('Customer:', customerEmail);
       console.log('Items:', metadata?.items);
       
-      // TODO: Implement order fulfillment logic
+      // Send purchase confirmation email
+      if (customerEmail) {
+        try {
+          await sendPurchaseConfirmation({
+            customerEmail,
+            customerName: customerName || undefined,
+            items: metadata?.items,
+          });
+          console.log('✅ Order fulfillment completed for:', customerEmail);
+        } catch (error) {
+          console.error('❌ Failed to send confirmation email:', error);
+          // Log error but don't fail the webhook
+        }
+      } else {
+        console.error('⚠️ No customer email found in session');
+      }
+      
       break;
     }
     case 'payment_intent.payment_failed': {

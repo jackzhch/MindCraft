@@ -12,6 +12,7 @@ A modern e-commerce platform for digital knowledge management tools with AI-powe
 
 - 🛒 **E-commerce Platform** - Modern interface for digital products
 - 💳 **Stripe Payments** - Secure payment processing with Stripe Checkout
+- 📧 **Email Notifications** - Automated purchase confirmation emails via Resend
 - 🤖 **AI Assistant** - Powered by Google Gemini for personalized recommendations
 - 🎨 **Beautiful UI** - Dark-themed design with Tailwind CSS
 - ⚡ **Fast & Scalable** - Built with Vite, React 19, and Vercel serverless functions
@@ -33,12 +34,15 @@ npm install
 
 ### 2. Configure Environment Variables
 
-Create a `.env.local` file in the project root:
+Create a `.env.local` file in the project root (you can copy from `env.example`):
 
 ```bash
 # Stripe (required for real payments)
 VITE_STRIPE_PUBLISHABLE_KEY=pk_test_YOUR_KEY_HERE
 STRIPE_SECRET_KEY=sk_test_YOUR_KEY_HERE
+
+# Resend (required for email notifications)
+RESEND_API_KEY=re_YOUR_KEY_HERE
 
 # Optional: AI Assistant
 GEMINI_API_KEY=your_gemini_api_key
@@ -49,7 +53,12 @@ GEMINI_API_KEY=your_gemini_api_key
 2. Copy your **Publishable key** (`pk_test_...`)
 3. Copy your **Secret key** (`sk_test_...`)
 
-> 💡 **Tip:** The app works in demo mode without keys!
+**Get your Resend API key:**
+1. Sign up at [resend.com](https://resend.com)
+2. Go to [API Keys](https://resend.com/api-keys)
+3. Create a new API key and copy it
+
+> 💡 **Tip:** The app works in demo mode without Stripe keys! Email notifications require Resend API key.
 
 ### 3. Start Development Server
 
@@ -100,6 +109,7 @@ Add these in Vercel Dashboard → Settings → Environment Variables:
 VITE_STRIPE_PUBLISHABLE_KEY=pk_live_...  # Use live keys for production
 STRIPE_SECRET_KEY=sk_live_...
 STRIPE_WEBHOOK_SECRET=whsec_...  # Get from Stripe Webhooks settings
+RESEND_API_KEY=re_...  # Your Resend API key
 GEMINI_API_KEY=your_key  # Optional
 ```
 
@@ -158,6 +168,7 @@ MindCraft/
 │   └── ...
 ├── services/                     # Business logic
 │   ├── stripeService.ts          # Stripe integration
+│   ├── emailService.ts           # Email notifications (Resend)
 │   └── geminiService.ts          # AI assistant logic
 ├── App.tsx                       # Main application
 ├── constants.ts                  # Product catalog
@@ -171,9 +182,31 @@ MindCraft/
 - **Frontend:** React 19, TypeScript, Tailwind CSS
 - **Build Tool:** Vite
 - **Payments:** Stripe Checkout API
+- **Email:** Resend API
 - **AI:** Google Gemini API
 - **Deployment:** Vercel (serverless functions)
 - **API Version:** Stripe 2025-12-15.clover
+
+## 📧 Email Customization
+
+The purchase confirmation emails are sent via Resend and can be customized in `services/emailService.ts`.
+
+### Customizing the Email Template
+
+1. **Sender Email:** Update the `from` field in `emailService.ts`
+   - For testing: `'MindCraft <onboarding@resend.dev>'`
+   - For production: `'MindCraft <noreply@yourdomain.com>'` (requires domain verification in Resend)
+
+2. **Email Content:** Modify the HTML template in the `sendPurchaseConfirmation` function
+
+3. **Subject Line:** Change the `subject` field (currently: "Purchase Confirmation from MindCraft")
+
+### Verifying Your Domain in Resend
+
+To use a custom sender email in production:
+1. Go to [Resend Dashboard → Domains](https://resend.com/domains)
+2. Add your domain and verify DNS records
+3. Update the `from` email in `emailService.ts`
 
 ## 💻 Development
 
@@ -230,9 +263,18 @@ vercel dev       # Runs both frontend and serverless functions
 - Check `STRIPE_WEBHOOK_SECRET` matches Stripe Dashboard
 - Review webhook logs in Stripe Dashboard
 
+### Confirmation Emails Not Sending
+**Solution:**
+- Verify `RESEND_API_KEY` is set in environment variables
+- Check Resend Dashboard for email logs and errors
+- Ensure "from" email domain is verified in Resend (or use `onboarding@resend.dev` for testing)
+- Review webhook logs in Vercel for email sending errors
+
 ## 📚 Additional Resources
 
+- [Email Setup Guide](./EMAIL_SETUP.md) - Complete guide for email notifications
 - [Stripe Documentation](https://stripe.com/docs)
+- [Resend Documentation](https://resend.com/docs)
 - [Vercel Documentation](https://vercel.com/docs)
 - [React Documentation](https://react.dev)
 - [Tailwind CSS](https://tailwindcss.com)

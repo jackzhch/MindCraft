@@ -2,6 +2,48 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.1.0] - 2026-01-21
+
+### Added - Email Notifications 📧
+
+#### Core Features
+- ✅ Automated purchase confirmation emails after successful payments
+- ✅ Professional HTML email template with MindCraft branding
+- ✅ Customer name personalization when available
+- ✅ Order details included in confirmation emails
+- ✅ Integration with Resend email service
+
+#### Email Template Features
+- Beautiful gradient header with MindCraft branding
+- Personalized greeting with customer name
+- Order summary with purchased items
+- Next steps section for customer guidance
+- Professional footer with branding
+- Mobile-responsive design
+
+#### New Files
+- `services/emailService.ts` - Email notification service using Resend
+- `env.example` - Environment variables template including Resend
+
+#### Modified Files
+- `api/webhook.ts` - Added email sending on `checkout.session.completed` event
+- `README.md` - Added Resend setup instructions and email customization guide
+- `package.json` - Added Resend dependency
+
+#### Dependencies Added
+- `resend` ^6.8.0 - Modern email API for transactional emails
+
+#### Configuration
+- New environment variable: `RESEND_API_KEY`
+- Email sender: MindCraft (configurable)
+- Subject: "Purchase Confirmation from MindCraft"
+
+#### Documentation
+- 📖 Setup guide for Resend integration
+- 📖 Email customization instructions
+- 📖 Domain verification guide for production
+- 📖 Troubleshooting section for email issues
+
 ## [1.0.0] - 2026-01-21
 
 ### Added - Stripe Integration 🎉
