@@ -60,6 +60,14 @@ GEMINI_API_KEY=your_gemini_api_key
 
 > 💡 **Tip:** The app works in demo mode without Stripe keys! Email notifications require Resend API key.
 
+**Verify your environment variables:**
+
+```bash
+npm run verify-env
+```
+
+This will check if all required environment variables are properly configured with the correct format.
+
 ### 3. Start Development Server
 
 ```bash
@@ -121,6 +129,8 @@ GEMINI_API_KEY=your_key  # Optional
 4. Select events: `checkout.session.completed`, `payment_intent.payment_failed`
 5. Copy **Signing secret** and add as `STRIPE_WEBHOOK_SECRET` in Vercel
 6. Redeploy
+
+> 🐛 **Troubleshooting Webhooks:** If you're experiencing webhook errors (500 errors, failed deliveries), see the [Webhook Debug Guide](WEBHOOK_DEBUG_GUIDE.md) for detailed troubleshooting steps.
 
 ## 🧪 Testing
 

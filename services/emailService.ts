@@ -1,6 +1,7 @@
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resendApiKey = process.env.RESEND_API_KEY;
+const resend = resendApiKey ? new Resend(resendApiKey) : null;
 
 export interface SendPurchaseConfirmationParams {
   customerEmail: string;
@@ -10,6 +11,11 @@ export interface SendPurchaseConfirmationParams {
 
 export const sendPurchaseConfirmation = async (params: SendPurchaseConfirmationParams): Promise<void> => {
   const { customerEmail, customerName, items } = params;
+
+  if (!resend) {
+    console.error('❌ RESEND_API_KEY is not configured. Email will not be sent.');
+    throw new Error('Email service not configured');
+  }
 
   try {
     // Note: Update the 'from' address to your verified domain in production
