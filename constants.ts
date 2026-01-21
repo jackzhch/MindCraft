@@ -50,7 +50,7 @@ export const PRODUCTS: Product[] = [
     id: 'p6',
     title: 'Cognitive Bias Cheat Sheet',
     description: 'A visual reference aimed at improving decision making by highlighting common mental pitfalls.',
-    price: 12.00,
+    price: 1.00,
     category: 'Guide',
     image: 'https://picsum.photos/seed/cognitive/800/600',
     features: ['High-Res PDF', 'Flashcards', 'Decision Checklist']

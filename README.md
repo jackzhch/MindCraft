@@ -76,7 +76,7 @@ Open [http://localhost:5173](http://localhost:5173)
 - **Stoic Reflection Journal** - $19.00 (Daily reflection templates)
 - **Zettelkasten Mastery Guide** - $35.00 (Networked thinking system)
 - **Habit Architect** - $24.00 (Behavioral science habits)
-- **Cognitive Bias Cheat Sheet** - $12.00 (Decision-making reference)
+- **Cognitive Bias Cheat Sheet** - $1.00 (Decision-making reference)
 
 ## 🚀 Deployment to Vercel
 
