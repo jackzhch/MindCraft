@@ -224,6 +224,12 @@ Create `components/ProfileSettings.tsx`:
 - Verify email settings
 - Try disabling email confirmation
 
+### Blank page after clicking confirmation email
+**Quick fix:**
+1. Go to Supabase **Authentication → URL Configuration**
+2. Add redirect URL: `http://localhost:3000/auth-callback.html`
+3. See [AUTH_REDIRECT_FIX.md](./AUTH_REDIRECT_FIX.md) for details
+
 ### Purchases not showing
 - Check webhook logs in Vercel
 - Verify `SUPABASE_SERVICE_ROLE_KEY` is set

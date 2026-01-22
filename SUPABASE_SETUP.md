@@ -167,10 +167,22 @@ After making a test purchase:
 - ✅ Restart your development server after adding env variables
 - ✅ Verify the keys are correct (no extra spaces)
 
+### Blank Page After Email Confirmation
+**Problem:** Clicking "Confirm your email" shows a blank page, but login still works.
+
+**Solution:**
+1. Go to **Authentication → URL Configuration** in Supabase
+2. Add to **Redirect URLs**: `http://localhost:3000/auth-callback.html`
+3. Set **Site URL**: `http://localhost:3000`
+4. Save and try again!
+
+📚 **See [AUTH_REDIRECT_FIX.md](./AUTH_REDIRECT_FIX.md) for detailed instructions**
+
 ### Email Not Sending
-- ✅ Check **Authentication → Email Templates** settings
+- ✅ Check **Authentication → Providers → Email** settings
 - ✅ For development, consider disabling email confirmation
 - ✅ Check spam folder
+- ✅ View email logs: **Authentication → Logs**
 
 ### RLS Policy Errors
 - ✅ Run the `supabase-schema.sql` again to ensure policies are created
