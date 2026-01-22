@@ -35,11 +35,8 @@ export default function AuthModal({ isOpen, onClose, defaultMode = 'signin' }: A
       } else {
         const { error } = await signUp(email, password, fullName);
         if (error) throw error;
-        setSuccess('Account created successfully! You can now sign in.');
-        setTimeout(() => {
-          setMode('signin');
-          setSuccess('');
-        }, 2000);
+        setSuccess('Account created! Please check your email to verify your account.');
+        setTimeout(() => onClose(), 2000);
       }
     } catch (err: any) {
       setError(err.message || 'An error occurred');
