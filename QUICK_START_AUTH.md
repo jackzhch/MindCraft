@@ -2,11 +2,14 @@
 
 Your MindCraft app now has full authentication! Here's what was added and how to get started.
 
+> 💡 **Want OAuth login?** This guide covers email/password auth. For Google, GitHub, and Facebook login, see **[OAuth Setup Guide](./OAUTH_SETUP.md)**.
+
 ## ✅ What Was Added
 
 ### 1. **Authentication System**
 - ✅ Sign up with email/password
 - ✅ Sign in/Sign out
+- ✅ OAuth login (Google, GitHub, Facebook) - [Setup Guide](./OAUTH_SETUP.md)
 - ✅ User profiles
 - ✅ Password reset
 - ✅ Session management

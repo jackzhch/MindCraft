@@ -322,6 +322,7 @@ vercel dev       # Runs both frontend and serverless functions
 ## 📚 Additional Resources
 
 - [Supabase Setup Guide](./SUPABASE_SETUP.md) - Complete guide for authentication and database
+- [OAuth Setup Guide](./OAUTH_SETUP.md) - Configure Google, GitHub, Facebook login
 - [Webhook Setup Guide](./WEBHOOK_SETUP.md) - Complete guide for webhooks and email notifications
 - [Supabase Documentation](https://supabase.com/docs)
 - [Stripe Documentation](https://stripe.com/docs)

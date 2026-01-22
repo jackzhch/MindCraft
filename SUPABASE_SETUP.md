@@ -223,17 +223,22 @@ With Supabase Auth + Database, your MindCraft app now has:
 - Real-time subscriptions (if needed)
 - Automatic backups
 
+## 🔐 OAuth Authentication (Optional)
+
+Want to allow users to sign in with Google, GitHub, or Facebook? Check out our **[OAuth Setup Guide](./OAUTH_SETUP.md)** for step-by-step instructions!
+
 ## 📚 Additional Resources
 
 - [Supabase Documentation](https://supabase.com/docs)
 - [Supabase Auth Docs](https://supabase.com/docs/guides/auth)
 - [Supabase Database](https://supabase.com/docs/guides/database)
 - [Row Level Security](https://supabase.com/docs/guides/auth/row-level-security)
+- [OAuth Setup Guide](./OAUTH_SETUP.md)
 
 ## 🔄 Next Steps
 
 1. **Customize User Profiles:** Add more fields to the profiles table
-2. **Add Social Login:** Enable Google, GitHub, etc.
+2. **Add Social Login:** Enable Google, GitHub, Facebook (see [OAuth Setup Guide](./OAUTH_SETUP.md))
 3. **Email Templates:** Customize the confirmation emails
 4. **Advanced Features:** Add real-time features, storage, etc.
 
