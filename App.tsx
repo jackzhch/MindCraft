@@ -1,19 +1,24 @@
 import React, { useState, useEffect } from 'react';
+import { AuthProvider } from './contexts/AuthContext';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import ProductCard from './components/ProductCard';
 import CartDrawer from './components/CartDrawer';
 import CheckoutModal from './components/CheckoutModal';
 import GeminiAssistant from './components/GeminiAssistant';
+import AuthModal from './components/AuthModal';
+import PurchaseHistory from './components/PurchaseHistory';
 import { PRODUCTS } from './constants';
 import { Product, CartItem } from './types';
 
-const App: React.FC = () => {
+const AppContent: React.FC = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [showCancelMessage, setShowCancelMessage] = useState(false);
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [showPurchaseHistory, setShowPurchaseHistory] = useState(false);
 
   // Handle Stripe redirect responses
   useEffect(() => {
@@ -82,9 +87,21 @@ const App: React.FC = () => {
 
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
 
+  // Check URL hash for purchases
+  useEffect(() => {
+    if (window.location.hash === '#purchases') {
+      setShowPurchaseHistory(true);
+    }
+  }, []);
+
   return (
     <div className="min-h-screen bg-obsidian text-paper font-sans selection:bg-accent selection:text-white">
-      <Navbar cartCount={cartCount} onOpenCart={() => setIsCartOpen(true)} />
+      <Navbar 
+        cartCount={cartCount} 
+        onOpenCart={() => setIsCartOpen(true)} 
+        onAuthClick={() => setIsAuthModalOpen(true)}
+        onPurchasesClick={() => setShowPurchaseHistory(true)}
+      />
       
       {/* Success Message */}
       {showSuccessMessage && (
@@ -123,7 +140,25 @@ const App: React.FC = () => {
       )}
       
       <main>
-        <Hero />
+        {showPurchaseHistory ? (
+          <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+            <button
+              onClick={() => {
+                setShowPurchaseHistory(false);
+                window.history.replaceState({}, document.title, window.location.pathname);
+              }}
+              className="mb-6 text-purple-400 hover:text-purple-300 flex items-center gap-2"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+              Back to Shop
+            </button>
+            <PurchaseHistory />
+          </section>
+        ) : (
+          <>
+            <Hero />
         
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16" id="products">
           <div className="flex flex-col md:flex-row justify-between items-end mb-12">
@@ -169,6 +204,8 @@ const App: React.FC = () => {
             </div>
           </div>
         </section>
+          </>
+        )}
       </main>
 
       <footer className="bg-obsidian border-t border-cement py-12">
@@ -199,7 +236,20 @@ const App: React.FC = () => {
       />
 
       <GeminiAssistant />
+      
+      <AuthModal 
+        isOpen={isAuthModalOpen} 
+        onClose={() => setIsAuthModalOpen(false)}
+      />
     </div>
+  );
+};
+
+const App: React.FC = () => {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 };
 

@@ -1,14 +1,22 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import Stripe from 'stripe';
 import { Resend } from 'resend';
+import { createClient } from '@supabase/supabase-js';
 
 // Get environment variables
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY || '';
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || '';
 const resendApiKey = process.env.RESEND_API_KEY || '';
+const supabaseUrl = process.env.SUPABASE_URL || '';
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
 
 // Initialize Resend client
 const resend = resendApiKey ? new Resend(resendApiKey) : null;
+
+// Initialize Supabase client (service role for server-side operations)
+const supabase = supabaseUrl && supabaseServiceKey 
+  ? createClient(supabaseUrl, supabaseServiceKey)
+  : null;
 
 // Lazy-initialize Stripe client to avoid module-level crashes
 let stripeInstance: Stripe | null = null;
@@ -163,6 +171,44 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
         const metadata = session.metadata;
         const customerEmail = session.customer_details?.email;
         const customerName = session.customer_details?.name;
+        
+        // Store purchase in Supabase if available
+        if (supabase && customerEmail) {
+          try {
+            // First, try to find user by email
+            const { data: userData, error: userError } = await supabase
+              .from('profiles')
+              .select('id')
+              .eq('email', customerEmail)
+              .single();
+
+            let userId = userData?.id;
+
+            // If user doesn't exist, we still want to store the purchase with email
+            // (They might sign up later and we can link it)
+            const { error: purchaseError } = await supabase
+              .from('purchases')
+              .insert({
+                user_id: userId || null,
+                stripe_session_id: session.id,
+                customer_email: customerEmail,
+                customer_name: customerName || null,
+                items: metadata?.items || 'Unknown items',
+                amount_total: session.amount_total || 0,
+                currency: session.currency || 'usd',
+                status: 'completed',
+              });
+
+            if (purchaseError) {
+              console.error('❌ Failed to store purchase in Supabase:', purchaseError.message);
+            } else {
+              console.log('✅ Purchase stored in Supabase for:', customerEmail);
+            }
+          } catch (error: any) {
+            console.error('❌ Error storing purchase:', error.message);
+            // Don't fail the webhook
+          }
+        }
         
         // Send purchase confirmation email
         if (customerEmail) {

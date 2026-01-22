@@ -12,11 +12,13 @@ A modern e-commerce platform for digital knowledge management tools with AI-powe
 
 - 🛒 **E-commerce Platform** - Modern interface for digital products
 - 💳 **Stripe Payments** - Secure payment processing with Stripe Checkout
+- 🔐 **User Authentication** - Sign up, login, and user profiles via Supabase Auth
+- 📦 **Purchase History** - Track and access all your purchases in one place
 - 📧 **Email Notifications** - Automated purchase confirmation emails via Resend
 - 🤖 **AI Assistant** - Powered by Google Gemini for personalized recommendations
 - 🎨 **Beautiful UI** - Dark-themed design with Tailwind CSS
 - ⚡ **Fast & Scalable** - Built with Vite, React 19, and Vercel serverless functions
-- 🔒 **Secure** - PCI-compliant payments, HTTPS, environment-based configuration
+- 🔒 **Secure** - PCI-compliant payments, RLS database policies, HTTPS everywhere
 
 ## 🚀 Quick Start
 
@@ -32,7 +34,18 @@ cd MindCraft
 npm install
 ```
 
-### 2. Configure Environment Variables
+### 2. Set Up Supabase (Required for Auth & Database)
+
+**IMPORTANT:** You need to set up Supabase first for authentication and purchase history.
+
+📚 **Follow the complete setup guide:** [SUPABASE_SETUP.md](SUPABASE_SETUP.md)
+
+Quick summary:
+1. Create a free Supabase project at [supabase.com](https://supabase.com)
+2. Run the SQL schema (provided in `supabase-schema.sql`)
+3. Get your API keys from Settings → API
+
+### 3. Configure Environment Variables
 
 Create a `.env.local` file in the project root (you can copy from `env.example`):
 
@@ -40,6 +53,13 @@ Create a `.env.local` file in the project root (you can copy from `env.example`)
 # Stripe (required for real payments)
 VITE_STRIPE_PUBLISHABLE_KEY=pk_test_YOUR_KEY_HERE
 STRIPE_SECRET_KEY=sk_test_YOUR_KEY_HERE
+STRIPE_WEBHOOK_SECRET=whsec_YOUR_WEBHOOK_SECRET
+
+# Supabase (required for auth & database)
+VITE_SUPABASE_URL=https://YOUR_PROJECT_REF.supabase.co
+VITE_SUPABASE_ANON_KEY=your_anon_key
+SUPABASE_URL=https://YOUR_PROJECT_REF.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
 
 # Resend (required for email notifications)
 RESEND_API_KEY=re_YOUR_KEY_HERE
@@ -47,6 +67,12 @@ RESEND_API_KEY=re_YOUR_KEY_HERE
 # Optional: AI Assistant
 GEMINI_API_KEY=your_gemini_api_key
 ```
+
+**Get your Supabase keys:**
+1. Go to your Supabase project dashboard
+2. Navigate to Settings → API
+3. Copy your **Project URL** and **anon public key**
+4. Copy your **service_role key** (keep this secret!)
 
 **Get your Stripe keys:**
 1. Go to [Stripe Dashboard → API Keys](https://dashboard.stripe.com/apikeys)
@@ -58,9 +84,9 @@ GEMINI_API_KEY=your_gemini_api_key
 2. Go to [API Keys](https://resend.com/api-keys)
 3. Create a new API key and copy it
 
-> 💡 **Tip:** The app works in demo mode without Stripe keys! Email notifications require Resend API key.
+> 💡 **Note:** Supabase is required for authentication and purchase history.
 
-### 3. Start Development Server
+### 4. Start Development Server
 
 ```bash
 npm run dev
@@ -68,7 +94,15 @@ npm run dev
 
 Open [http://localhost:5173](http://localhost:5173)
 
-### 4. Test Payment
+### 5. Test Authentication & Payment
+
+**First, create an account:**
+1. Click **"Sign In"** in the navigation
+2. Click **"Don't have an account? Sign up"**
+3. Enter your email and password
+4. Check your email to verify (if email confirmation is enabled)
+
+**Then, test a purchase:**
 
 1. Add "The Second Brain OS" ($1.00) to cart
 2. Proceed to checkout
@@ -106,11 +140,22 @@ git push
 Add these in Vercel Dashboard → Settings → Environment Variables:
 
 ```bash
-VITE_STRIPE_PUBLISHABLE_KEY=pk_live_...  # Use live keys for production
+# Stripe (use LIVE keys for production)
+VITE_STRIPE_PUBLISHABLE_KEY=pk_live_...
 STRIPE_SECRET_KEY=sk_live_...
-STRIPE_WEBHOOK_SECRET=whsec_...  # Get from Stripe Webhooks settings
-RESEND_API_KEY=re_...  # Your Resend API key
-GEMINI_API_KEY=your_key  # Optional
+STRIPE_WEBHOOK_SECRET=whsec_...
+
+# Supabase (same keys work for production)
+VITE_SUPABASE_URL=https://YOUR_PROJECT_REF.supabase.co
+VITE_SUPABASE_ANON_KEY=your_anon_key
+SUPABASE_URL=https://YOUR_PROJECT_REF.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
+
+# Resend
+RESEND_API_KEY=re_...
+
+# Optional
+GEMINI_API_KEY=your_key
 ```
 
 ### Set Up Stripe Webhooks
@@ -183,6 +228,8 @@ MindCraft/
 
 - **Frontend:** React 19, TypeScript, Tailwind CSS
 - **Build Tool:** Vite
+- **Authentication:** Supabase Auth
+- **Database:** Supabase (PostgreSQL)
 - **Payments:** Stripe Checkout API
 - **Email:** Resend API
 - **AI:** Google Gemini API
@@ -274,7 +321,9 @@ vercel dev       # Runs both frontend and serverless functions
 
 ## 📚 Additional Resources
 
+- [Supabase Setup Guide](./SUPABASE_SETUP.md) - Complete guide for authentication and database
 - [Webhook Setup Guide](./WEBHOOK_SETUP.md) - Complete guide for webhooks and email notifications
+- [Supabase Documentation](https://supabase.com/docs)
 - [Stripe Documentation](https://stripe.com/docs)
 - [Resend Documentation](https://resend.com/docs)
 - [Vercel Documentation](https://vercel.com/docs)
@@ -283,12 +332,16 @@ vercel dev       # Runs both frontend and serverless functions
 
 ## 🎯 Going Live Checklist
 
-- [ ] Test all features with test cards
+- [ ] Set up Supabase project and run schema
+- [ ] Enable email confirmations in Supabase Auth
+- [ ] Test authentication (signup, login, logout)
+- [ ] Test all features with Stripe test cards
 - [ ] Deploy to Vercel
-- [ ] Add environment variables in Vercel
-- [ ] Set up Stripe webhooks
+- [ ] Add ALL environment variables in Vercel (Supabase, Stripe, Resend)
+- [ ] Set up Stripe webhooks pointing to production URL
 - [ ] Switch to live Stripe keys
 - [ ] Test with small real transaction
+- [ ] Verify purchase appears in database and purchase history
 - [ ] Monitor for 24 hours
 - [ ] Announce launch! 🎊
 

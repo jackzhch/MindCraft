@@ -1,12 +1,15 @@
 import React from 'react';
 import { CartItem } from '../types';
+import UserMenu from './UserMenu';
 
 interface NavbarProps {
   cartCount: number;
   onOpenCart: () => void;
+  onAuthClick: () => void;
+  onPurchasesClick: () => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ cartCount, onOpenCart }) => {
+const Navbar: React.FC<NavbarProps> = ({ cartCount, onOpenCart, onAuthClick, onPurchasesClick }) => {
   return (
     <nav className="fixed top-0 w-full z-50 bg-obsidian/80 backdrop-blur-md border-b border-cement">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -17,11 +20,16 @@ const Navbar: React.FC<NavbarProps> = ({ cartCount, onOpenCart }) => {
             </span>
           </div>
           
-          <div className="flex items-center space-x-8">
+          <div className="flex items-center space-x-4">
             <div className="hidden md:flex space-x-6 text-sm font-medium text-mist">
               <a href="#" className="hover:text-white transition-colors">Systems</a>
               <a href="#" className="hover:text-white transition-colors">Templates</a>
-              <a href="#" className="hover:text-white transition-colors">Philosophy</a>
+              <button 
+                onClick={onPurchasesClick}
+                className="hover:text-white transition-colors"
+              >
+                My Purchases
+              </button>
             </div>
 
             <button 
@@ -38,6 +46,8 @@ const Navbar: React.FC<NavbarProps> = ({ cartCount, onOpenCart }) => {
                 </span>
               )}
             </button>
+
+            <UserMenu onAuthClick={onAuthClick} />
           </div>
         </div>
       </div>
