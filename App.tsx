@@ -8,9 +8,6 @@ import CheckoutModal from './components/CheckoutModal';
 import GeminiAssistant from './components/GeminiAssistant';
 import AuthModal from './components/AuthModal';
 import PurchaseHistory from './components/PurchaseHistory';
-import { Tabs, TabsList, TabsTrigger } from './components/ui/tabs';
-import { Button } from './components/ui/button';
-import { Input } from './components/ui/input';
 import { PRODUCTS } from './constants';
 import { Product, CartItem } from './types';
 
@@ -187,14 +184,21 @@ const AppContent: React.FC = () => {
               <p className="text-gray-300">Digital artifacts to enhance your cognition.</p>
             </div>
             
-            <Tabs value={selectedCategory} onValueChange={setSelectedCategory} className="mt-4 md:mt-0">
-              <TabsList className="bg-cement/50 backdrop-blur">
-                <TabsTrigger value="All" className="text-xs uppercase tracking-wide">All</TabsTrigger>
-                <TabsTrigger value="System" className="text-xs uppercase tracking-wide">Systems</TabsTrigger>
-                <TabsTrigger value="Template" className="text-xs uppercase tracking-wide">Templates</TabsTrigger>
-                <TabsTrigger value="Guide" className="text-xs uppercase tracking-wide">Guides</TabsTrigger>
-              </TabsList>
-            </Tabs>
+            <div className="flex gap-2 mt-4 md:mt-0">
+              {['All', 'System', 'Template', 'Guide'].map(category => (
+                <button
+                  key={category}
+                  onClick={() => setSelectedCategory(category)}
+                  className={`px-4 py-2 text-xs uppercase tracking-wide font-medium rounded-md transition-colors ${
+                    selectedCategory === category
+                      ? 'bg-white text-obsidian'
+                      : 'bg-cement/50 text-gray-300 hover:bg-cement hover:text-white'
+                  }`}
+                >
+                  {category === 'System' ? 'Systems' : category === 'Template' ? 'Templates' : category === 'Guide' ? 'Guides' : category}
+                </button>
+              ))}
+            </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -219,17 +223,17 @@ const AppContent: React.FC = () => {
               Subscribe to our newsletter for weekly insights on knowledge management and mental models.
             </p>
             <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
-              <Input
+              <input
                 type="email" 
                 placeholder="Enter your email" 
                 value={subscribeEmail}
                 onChange={(e) => setSubscribeEmail(e.target.value)}
                 required
-                className="flex-1 bg-obsidian border-cement"
+                className="flex-1 px-4 py-3 bg-obsidian border border-cement rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
               />
-              <Button type="submit" variant="secondary" className="bg-white text-obsidian font-bold hover:bg-gray-200">
+              <button type="submit" className="px-8 py-3 bg-white text-obsidian font-bold rounded-lg hover:bg-gray-200 transition-colors">
                 Subscribe
-              </Button>
+              </button>
             </form>
           </div>
         </section>
