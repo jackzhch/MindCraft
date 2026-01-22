@@ -19,6 +19,8 @@ const AppContent: React.FC = () => {
   const [showCancelMessage, setShowCancelMessage] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [showPurchaseHistory, setShowPurchaseHistory] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [subscribeEmail, setSubscribeEmail] = useState('');
 
   // Handle Stripe redirect responses
   useEffect(() => {
@@ -94,6 +96,21 @@ const AppContent: React.FC = () => {
     }
   }, []);
 
+  // Filter products based on selected category
+  const filteredProducts = selectedCategory === 'All' 
+    ? PRODUCTS 
+    : PRODUCTS.filter(product => product.category === selectedCategory);
+
+  // Handle newsletter subscription
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (subscribeEmail) {
+      // TODO: Implement actual newsletter subscription (e.g., via API)
+      alert(`Thank you for subscribing with ${subscribeEmail}!`);
+      setSubscribeEmail('');
+    }
+  };
+
   return (
     <div className="min-h-screen bg-obsidian text-paper font-sans selection:bg-accent selection:text-white">
       <Navbar 
@@ -168,14 +185,35 @@ const AppContent: React.FC = () => {
             </div>
             
             <div className="mt-4 md:mt-0 flex gap-2">
-               <span className="px-3 py-1 bg-cement rounded text-xs text-mist uppercase tracking-wide">All</span>
-               <span className="px-3 py-1 hover:bg-cement rounded text-xs text-gray-500 uppercase tracking-wide cursor-pointer transition-colors">Systems</span>
-               <span className="px-3 py-1 hover:bg-cement rounded text-xs text-gray-500 uppercase tracking-wide cursor-pointer transition-colors">Guides</span>
+               <span 
+                 onClick={() => setSelectedCategory('All')}
+                 className={`px-3 py-1 ${selectedCategory === 'All' ? 'bg-cement text-mist' : 'text-gray-500 hover:bg-cement'} rounded text-xs uppercase tracking-wide cursor-pointer transition-colors`}
+               >
+                 All
+               </span>
+               <span 
+                 onClick={() => setSelectedCategory('System')}
+                 className={`px-3 py-1 ${selectedCategory === 'System' ? 'bg-cement text-mist' : 'text-gray-500 hover:bg-cement'} rounded text-xs uppercase tracking-wide cursor-pointer transition-colors`}
+               >
+                 Systems
+               </span>
+               <span 
+                 onClick={() => setSelectedCategory('Template')}
+                 className={`px-3 py-1 ${selectedCategory === 'Template' ? 'bg-cement text-mist' : 'text-gray-500 hover:bg-cement'} rounded text-xs uppercase tracking-wide cursor-pointer transition-colors`}
+               >
+                 Templates
+               </span>
+               <span 
+                 onClick={() => setSelectedCategory('Guide')}
+                 className={`px-3 py-1 ${selectedCategory === 'Guide' ? 'bg-cement text-mist' : 'text-gray-500 hover:bg-cement'} rounded text-xs uppercase tracking-wide cursor-pointer transition-colors`}
+               >
+                 Guides
+               </span>
             </div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {PRODUCTS.map(product => (
+            {filteredProducts.map(product => (
               <ProductCard 
                 key={product.id} 
                 product={product} 
@@ -183,6 +221,9 @@ const AppContent: React.FC = () => {
               />
             ))}
           </div>
+          {filteredProducts.length === 0 && (
+            <p className="text-center text-mist mt-8">No products found in this category.</p>
+          )}
         </section>
 
         <section className="bg-charcoal border-t border-cement py-24 mt-16">
@@ -192,16 +233,19 @@ const AppContent: React.FC = () => {
               We are building a community of thinkers who value clarity over chaos. 
               Subscribe to our newsletter for weekly insights on knowledge management and mental models.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
+            <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
               <input 
                 type="email" 
                 placeholder="Enter your email" 
+                value={subscribeEmail}
+                onChange={(e) => setSubscribeEmail(e.target.value)}
+                required
                 className="flex-1 bg-obsidian border border-cement text-white rounded-lg px-4 py-3 focus:outline-none focus:border-accent"
               />
-              <button className="bg-white text-obsidian font-bold px-6 py-3 rounded-lg hover:bg-gray-200 transition-colors">
+              <button type="submit" className="bg-white text-obsidian font-bold px-6 py-3 rounded-lg hover:bg-gray-200 transition-colors">
                 Subscribe
               </button>
-            </div>
+            </form>
           </div>
         </section>
           </>

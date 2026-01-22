@@ -104,7 +104,7 @@ Open [http://localhost:5173](http://localhost:5173)
 
 **Then, test a purchase:**
 
-1. Add "The Second Brain OS" ($1.00) to cart
+1. Add "The Second Brain OS" ($9.00) to cart
 2. Proceed to checkout
 3. Enter your email
 4. Use test card: **`4242 4242 4242 4242`**
@@ -114,12 +114,12 @@ Open [http://localhost:5173](http://localhost:5173)
 
 ## 📦 Product Catalog
 
-- **The Second Brain OS** - $1.00 (PARA methodology workspace)
-- **Focus Framework 2.0** - $29.00 (Deep work protocol)
+- **The Second Brain OS** - $9.00 (PARA methodology workspace)
+- **Focus Framework 2.0** - $9.00 (Deep work protocol)
 - **Stoic Reflection Journal** - $19.00 (Daily reflection templates)
-- **Zettelkasten Mastery Guide** - $35.00 (Networked thinking system)
-- **Habit Architect** - $24.00 (Behavioral science habits)
-- **Cognitive Bias Cheat Sheet** - $1.00 (Decision-making reference)
+- **Zettelkasten Mastery Guide** - $19.00 (Networked thinking system)
+- **Habit Architect** - $29.00 (Behavioral science habits)
+- **Cognitive Bias Cheat Sheet** - $29.00 (Decision-making reference)
 
 ## 🚀 Deployment to Vercel
 
@@ -322,7 +322,6 @@ vercel dev       # Runs both frontend and serverless functions
 ## 📚 Additional Resources
 
 - [Supabase Setup Guide](./SUPABASE_SETUP.md) - Complete guide for authentication and database
-- [OAuth Setup Guide](./OAUTH_SETUP.md) - Configure Google, GitHub, Facebook login
 - [Webhook Setup Guide](./WEBHOOK_SETUP.md) - Complete guide for webhooks and email notifications
 - [Supabase Documentation](https://supabase.com/docs)
 - [Stripe Documentation](https://stripe.com/docs)
