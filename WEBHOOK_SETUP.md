@@ -1,6 +1,6 @@
 # Stripe Webhook Setup Guide
 
-This guide explains how to set up Stripe webhooks for order fulfillment in your MindCraft application.
+This guide explains how to set up Stripe webhooks for order fulfillment in your MindsCraft application.
 
 ## Overview
 
@@ -157,7 +157,7 @@ To customize the confirmation email, edit the HTML template in `/api/webhook.ts`
 
 For production, update the "from" address:
 ```typescript
-from: 'MindCraft <noreply@yourdomain.com>'
+from: 'MindsCraft <noreply@yourdomain.com>'
 ```
 
 You'll need to verify your domain in Resend first.

@@ -1,8 +1,8 @@
 <div align="center">
-<img width="1200" height="475" alt="MindCraft Banner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+<img width="1200" height="475" alt="MindsCraft Banner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
 </div>
 
-# MindCraft - Digital Architectures for Thought
+# MindsCraft - Digital Architectures for Thought
 
 A modern e-commerce platform for digital knowledge management tools with AI-powered assistance and secure Stripe payment integration.
 
@@ -204,7 +204,7 @@ stripe trigger checkout.session.completed
 ## 📁 Project Structure
 
 ```
-MindCraft/
+MindsCraft/
 ├── api/                          # Vercel serverless functions
 │   ├── create-checkout-session.ts  # Creates Stripe Checkout sessions
 │   └── webhook.ts                   # Handles Stripe webhook events
@@ -243,12 +243,12 @@ The purchase confirmation emails are sent via Resend and can be customized in `s
 ### Customizing the Email Template
 
 1. **Sender Email:** Update the `from` field in `emailService.ts`
-   - For testing: `'MindCraft <onboarding@resend.dev>'`
-   - For production: `'MindCraft <noreply@yourdomain.com>'` (requires domain verification in Resend)
+   - For testing: `'MindsCraft <onboarding@resend.dev>'`
+   - For production: `'MindsCraft <noreply@yourdomain.com>'` (requires domain verification in Resend)
 
 2. **Email Content:** Modify the HTML template in the `sendPurchaseConfirmation` function
 
-3. **Subject Line:** Change the `subject` field (currently: "Purchase Confirmation from MindCraft")
+3. **Subject Line:** Change the `subject` field (currently: "Purchase Confirmation from MindsCraft")
 
 ### Verifying Your Domain in Resend
 

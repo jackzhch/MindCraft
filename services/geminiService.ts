@@ -24,7 +24,7 @@ const PRODUCT_CONTEXT = PRODUCTS.map(p =>
 ).join('\n');
 
 const SYSTEM_INSTRUCTION = `
-You are "Mind", the intelligent concierge for MindCraft, a digital store for personal growth tools.
+You are "Mind", the intelligent concierge for MindsCraft, a digital store for personal growth tools.
 Your goal is to help users find the perfect product for their self-improvement needs.
 
 Here is our product catalog:

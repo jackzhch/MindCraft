@@ -25,11 +25,11 @@ export const sendPurchaseConfirmation = async (params: SendPurchaseConfirmationP
     console.log('📧 Sending email via Resend...');
     // Note: Update the 'from' address to your verified domain in production
     // For testing, you can use: onboarding@resend.dev
-    // For production: 'MindCraft <noreply@yourdomain.com>'
+    // For production: 'MindsCraft <noreply@yourdomain.com>'
     const result = await resend.emails.send({
-      from: 'MindCraft <onboarding@resend.dev>',
+      from: 'MindsCraft <onboarding@resend.dev>',
       to: customerEmail,
-      subject: 'Purchase Confirmation from MindCraft',
+      subject: 'Purchase Confirmation from MindsCraft',
       html: `
         <!DOCTYPE html>
         <html>
@@ -40,7 +40,7 @@ export const sendPurchaseConfirmation = async (params: SendPurchaseConfirmationP
           </head>
           <body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
             <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 40px 20px; text-align: center; border-radius: 8px 8px 0 0;">
-              <h1 style="color: white; margin: 0; font-size: 28px;">MindCraft</h1>
+              <h1 style="color: white; margin: 0; font-size: 28px;">MindsCraft</h1>
               <p style="color: rgba(255, 255, 255, 0.9); margin: 10px 0 0 0;">Digital Architectures for Thought</p>
             </div>
             
@@ -72,7 +72,7 @@ export const sendPurchaseConfirmation = async (params: SendPurchaseConfirmationP
               </p>
 
               <div style="margin-top: 40px; padding-top: 30px; border-top: 1px solid #e0e0e0; text-align: center; color: #999; font-size: 14px;">
-                <p style="margin: 5px 0;">© 2026 MindCraft. All rights reserved.</p>
+                <p style="margin: 5px 0;">© 2026 MindsCraft. All rights reserved.</p>
                 <p style="margin: 5px 0;">Digital Architectures for Thought</p>
               </div>
             </div>

@@ -8,6 +8,9 @@ import CheckoutModal from './components/CheckoutModal';
 import GeminiAssistant from './components/GeminiAssistant';
 import AuthModal from './components/AuthModal';
 import PurchaseHistory from './components/PurchaseHistory';
+import { Tabs, TabsList, TabsTrigger } from './components/ui/tabs';
+import { Button } from './components/ui/button';
+import { Input } from './components/ui/input';
 import { PRODUCTS } from './constants';
 import { Product, CartItem } from './types';
 
@@ -184,32 +187,14 @@ const AppContent: React.FC = () => {
               <p className="text-mist">Digital artifacts to enhance your cognition.</p>
             </div>
             
-            <div className="mt-4 md:mt-0 flex gap-2">
-               <span 
-                 onClick={() => setSelectedCategory('All')}
-                 className={`px-3 py-1 ${selectedCategory === 'All' ? 'bg-cement text-mist' : 'text-gray-500 hover:bg-cement'} rounded text-xs uppercase tracking-wide cursor-pointer transition-colors`}
-               >
-                 All
-               </span>
-               <span 
-                 onClick={() => setSelectedCategory('System')}
-                 className={`px-3 py-1 ${selectedCategory === 'System' ? 'bg-cement text-mist' : 'text-gray-500 hover:bg-cement'} rounded text-xs uppercase tracking-wide cursor-pointer transition-colors`}
-               >
-                 Systems
-               </span>
-               <span 
-                 onClick={() => setSelectedCategory('Template')}
-                 className={`px-3 py-1 ${selectedCategory === 'Template' ? 'bg-cement text-mist' : 'text-gray-500 hover:bg-cement'} rounded text-xs uppercase tracking-wide cursor-pointer transition-colors`}
-               >
-                 Templates
-               </span>
-               <span 
-                 onClick={() => setSelectedCategory('Guide')}
-                 className={`px-3 py-1 ${selectedCategory === 'Guide' ? 'bg-cement text-mist' : 'text-gray-500 hover:bg-cement'} rounded text-xs uppercase tracking-wide cursor-pointer transition-colors`}
-               >
-                 Guides
-               </span>
-            </div>
+            <Tabs value={selectedCategory} onValueChange={setSelectedCategory} className="mt-4 md:mt-0">
+              <TabsList className="bg-cement/50 backdrop-blur">
+                <TabsTrigger value="All" className="text-xs uppercase tracking-wide">All</TabsTrigger>
+                <TabsTrigger value="System" className="text-xs uppercase tracking-wide">Systems</TabsTrigger>
+                <TabsTrigger value="Template" className="text-xs uppercase tracking-wide">Templates</TabsTrigger>
+                <TabsTrigger value="Guide" className="text-xs uppercase tracking-wide">Guides</TabsTrigger>
+              </TabsList>
+            </Tabs>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -234,17 +219,17 @@ const AppContent: React.FC = () => {
               Subscribe to our newsletter for weekly insights on knowledge management and mental models.
             </p>
             <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
-              <input 
+              <Input
                 type="email" 
                 placeholder="Enter your email" 
                 value={subscribeEmail}
                 onChange={(e) => setSubscribeEmail(e.target.value)}
                 required
-                className="flex-1 bg-obsidian border border-cement text-white rounded-lg px-4 py-3 focus:outline-none focus:border-accent"
+                className="flex-1 bg-obsidian border-cement"
               />
-              <button type="submit" className="bg-white text-obsidian font-bold px-6 py-3 rounded-lg hover:bg-gray-200 transition-colors">
+              <Button type="submit" variant="secondary" className="bg-white text-obsidian font-bold hover:bg-gray-200">
                 Subscribe
-              </button>
+              </Button>
             </form>
           </div>
         </section>
@@ -254,7 +239,7 @@ const AppContent: React.FC = () => {
 
       <footer className="bg-obsidian border-t border-cement py-12">
         <div className="max-w-7xl mx-auto px-4 text-center text-sm text-gray-600">
-          <p>&copy; {new Date().getFullYear()} MindCraft Digital. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} MindsCraft Digital. All rights reserved.</p>
           <div className="mt-4 space-x-4">
             <a href="#" className="hover:text-mist">Privacy</a>
             <a href="#" className="hover:text-mist">Terms</a>

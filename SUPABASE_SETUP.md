@@ -1,6 +1,6 @@
 # Supabase Authentication & Database Setup Guide
 
-This guide will help you set up Supabase authentication and database for MindCraft.
+This guide will help you set up Supabase authentication and database for MindsCraft.
 
 ## 📋 Prerequisites
 
@@ -13,7 +13,7 @@ This guide will help you set up Supabase authentication and database for MindCra
 2. Click **"Start your project"** or **"New Project"**
 3. Choose your organization (or create one)
 4. Fill in the project details:
-   - **Name:** `mindcraft` (or your preferred name)
+   - **Name:** `mindscraft` (or your preferred name)
    - **Database Password:** Choose a strong password (save this!)
    - **Region:** Choose closest to your users
    - **Pricing Plan:** Free tier is sufficient for getting started
@@ -195,7 +195,7 @@ After making a test purchase:
 
 ## 🎯 What You Get
 
-With Supabase Auth + Database, your MindCraft app now has:
+With Supabase Auth + Database, your MindsCraft app now has:
 
 ✅ **User Authentication**
 - Email/password signup and login

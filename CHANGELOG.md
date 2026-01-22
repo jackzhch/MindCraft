@@ -8,13 +8,13 @@ All notable changes to this project will be documented in this file.
 
 #### Core Features
 - ✅ Automated purchase confirmation emails after successful payments
-- ✅ Professional HTML email template with MindCraft branding
+- ✅ Professional HTML email template with MindsCraft branding
 - ✅ Customer name personalization when available
 - ✅ Order details included in confirmation emails
 - ✅ Integration with Resend email service
 
 #### Email Template Features
-- Beautiful gradient header with MindCraft branding
+- Beautiful gradient header with MindsCraft branding
 - Personalized greeting with customer name
 - Order summary with purchased items
 - Next steps section for customer guidance
@@ -35,8 +35,8 @@ All notable changes to this project will be documented in this file.
 
 #### Configuration
 - New environment variable: `RESEND_API_KEY`
-- Email sender: MindCraft (configurable)
-- Subject: "Purchase Confirmation from MindCraft"
+- Email sender: MindsCraft (configurable)
+- Subject: "Purchase Confirmation from MindsCraft"
 
 #### Documentation
 - 📖 Setup guide for Resend integration

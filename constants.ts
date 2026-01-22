@@ -22,7 +22,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'p3',
     title: 'Stoic Reflection Journal',
-    description: 'Digital journaling templates based on Marcus Aurelius's nightly reviews. Cultivate resilience and clarity.',
+    description: 'Digital journaling templates based on Marcus Aurelius\' nightly reviews. Cultivate resilience and clarity.',
     price: 19.00,
     category: 'Template',
     image: 'https://picsum.photos/seed/stoic/800/600',

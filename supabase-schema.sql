@@ -1,4 +1,4 @@
--- MindCraft Supabase Database Schema
+-- MindsCraft Supabase Database Schema
 -- Run these SQL commands in your Supabase SQL Editor
 
 -- Enable UUID extension
