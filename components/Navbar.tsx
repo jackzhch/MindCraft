@@ -15,15 +15,15 @@ const Navbar: React.FC<NavbarProps> = ({ cartCount, onOpenCart, onAuthClick, onP
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
-            <span className="text-2xl font-serif font-bold text-white tracking-tight">
-              Mind<span className="text-accent">Craft</span>
-            </span>
+            <a href="/" className="text-2xl font-serif font-bold text-white tracking-tight hover:opacity-90 transition-opacity">
+              Minds<span className="bg-gradient-to-r from-purple-400 to-pink-400 text-transparent bg-clip-text">Craft</span>
+            </a>
           </div>
           
           <div className="flex items-center space-x-4">
-            <div className="hidden md:flex space-x-6 text-sm font-medium text-mist">
-              <a href="#" className="hover:text-white transition-colors">Systems</a>
-              <a href="#" className="hover:text-white transition-colors">Templates</a>
+            <div className="hidden md:flex space-x-6 text-sm font-medium text-gray-300">
+              <a href="#products" className="hover:text-white transition-colors">Systems</a>
+              <a href="#products" className="hover:text-white transition-colors">Templates</a>
               <button 
                 onClick={onPurchasesClick}
                 className="hover:text-white transition-colors"
@@ -34,7 +34,7 @@ const Navbar: React.FC<NavbarProps> = ({ cartCount, onOpenCart, onAuthClick, onP
 
             <button 
               onClick={onOpenCart}
-              className="relative p-2 text-mist hover:text-white transition-colors"
+              className="relative p-2 text-gray-300 hover:text-white transition-colors"
               aria-label="Open cart"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">

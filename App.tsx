@@ -184,7 +184,7 @@ const AppContent: React.FC = () => {
           <div className="flex flex-col md:flex-row justify-between items-end mb-12">
             <div>
               <h2 className="text-3xl font-bold font-serif text-white mb-2">Curated Tools</h2>
-              <p className="text-mist">Digital artifacts to enhance your cognition.</p>
+              <p className="text-gray-300">Digital artifacts to enhance your cognition.</p>
             </div>
             
             <Tabs value={selectedCategory} onValueChange={setSelectedCategory} className="mt-4 md:mt-0">
@@ -207,14 +207,14 @@ const AppContent: React.FC = () => {
             ))}
           </div>
           {filteredProducts.length === 0 && (
-            <p className="text-center text-mist mt-8">No products found in this category.</p>
+            <p className="text-center text-gray-300 mt-8">No products found in this category.</p>
           )}
         </section>
 
         <section className="bg-charcoal border-t border-cement py-24 mt-16">
           <div className="max-w-4xl mx-auto px-4 text-center">
             <h2 className="text-3xl font-serif font-bold text-white mb-6">Join the Intelligent Few</h2>
-            <p className="text-mist mb-8 leading-relaxed">
+            <p className="text-gray-300 mb-8 leading-relaxed">
               We are building a community of thinkers who value clarity over chaos. 
               Subscribe to our newsletter for weekly insights on knowledge management and mental models.
             </p>
@@ -238,12 +238,12 @@ const AppContent: React.FC = () => {
       </main>
 
       <footer className="bg-obsidian border-t border-cement py-12">
-        <div className="max-w-7xl mx-auto px-4 text-center text-sm text-gray-600">
+        <div className="max-w-7xl mx-auto px-4 text-center text-sm text-gray-400">
           <p>&copy; {new Date().getFullYear()} MindsCraft Digital. All rights reserved.</p>
           <div className="mt-4 space-x-4">
-            <a href="#" className="hover:text-mist">Privacy</a>
-            <a href="#" className="hover:text-mist">Terms</a>
-            <a href="#" className="hover:text-mist">Support</a>
+            <a href="#" className="hover:text-gray-200 transition-colors">Privacy</a>
+            <a href="#" className="hover:text-gray-200 transition-colors">Terms</a>
+            <a href="#" className="hover:text-gray-200 transition-colors">Support</a>
           </div>
         </div>
       </footer>

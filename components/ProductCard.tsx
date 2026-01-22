@@ -32,7 +32,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
           <h3 className="text-xl font-bold text-white mb-3 group-hover:text-accent transition-colors font-serif">
             {product.title}
           </h3>
-          <p className="text-sm text-mist/90 line-clamp-3 mb-4 leading-relaxed">
+          <p className="text-sm text-gray-300 line-clamp-3 mb-4 leading-relaxed">
             {product.description}
           </p>
           <ul className="space-y-2">

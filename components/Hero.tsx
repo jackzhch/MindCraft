@@ -10,15 +10,18 @@ const Hero: React.FC = () => {
             Internal World
           </span>
         </h1>
-        <p className="mt-4 max-w-2xl mx-auto text-xl text-mist">
+        <p className="mt-4 max-w-2xl mx-auto text-xl text-gray-300 leading-relaxed">
           Premium digital systems for knowledge management, focus, and clarity. 
           Stop drowning in information. Start building a legacy of thought.
         </p>
-        <div className="mt-10 flex justify-center gap-4">
-          <button className="px-8 py-3 bg-white text-obsidian font-semibold rounded-full hover:bg-gray-200 transition-all transform hover:scale-105 shadow-lg shadow-white/10">
+        <div className="mt-10 flex justify-center gap-4 flex-wrap">
+          <a 
+            href="#products" 
+            className="px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-full hover:from-purple-700 hover:to-pink-700 transition-all transform hover:scale-105 shadow-lg shadow-purple-500/25"
+          >
             Explore Systems
-          </button>
-          <button className="px-8 py-3 border border-cement text-white font-semibold rounded-full hover:border-accent hover:text-accent transition-all">
+          </a>
+          <button className="px-8 py-3 border-2 border-gray-600 text-gray-200 font-semibold rounded-full hover:border-purple-500 hover:text-white hover:bg-purple-500/10 transition-all">
             Our Manifesto
           </button>
         </div>

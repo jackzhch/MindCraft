@@ -24,7 +24,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose, items, onRemov
         <div className="flex-1 flex flex-col bg-charcoal border-l border-cement shadow-2xl">
           <div className="flex items-center justify-between px-6 py-4 border-b border-cement">
             <h2 className="text-lg font-bold text-white font-serif">Your Tools</h2>
-            <button onClick={onClose} className="text-mist hover:text-white">
+            <button onClick={onClose} className="text-gray-300 hover:text-white">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
             </button>
           </div>
@@ -33,7 +33,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose, items, onRemov
             {items.length === 0 ? (
               <div className="h-full flex flex-col items-center justify-center text-center">
                 <svg className="w-16 h-16 text-cement mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
-                <p className="text-mist text-lg">Your cart is empty.</p>
+                <p className="text-gray-300 text-lg">Your cart is empty.</p>
                 <p className="text-gray-600 text-sm mt-2">Start building your system.</p>
                 <button 
                   onClick={onClose}
@@ -59,9 +59,9 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose, items, onRemov
                       </div>
                       <div className="flex flex-1 items-end justify-between text-sm">
                         <div className="flex items-center border border-cement rounded bg-obsidian">
-                          <button onClick={() => onUpdateQuantity(item.id, -1)} className="px-2 py-1 text-mist hover:text-white">-</button>
+                          <button onClick={() => onUpdateQuantity(item.id, -1)} className="px-2 py-1 text-gray-300 hover:text-white">-</button>
                           <span className="px-2 text-white">{item.quantity}</span>
-                          <button onClick={() => onUpdateQuantity(item.id, 1)} className="px-2 py-1 text-mist hover:text-white">+</button>
+                          <button onClick={() => onUpdateQuantity(item.id, 1)} className="px-2 py-1 text-gray-300 hover:text-white">+</button>
                         </div>
                         <button 
                           type="button" 
