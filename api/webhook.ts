@@ -7,6 +7,7 @@ import { createClient } from '@supabase/supabase-js';
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY || '';
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || '';
 const resendApiKey = process.env.RESEND_API_KEY || '';
+const resendFromEmail = process.env.RESEND_FROM_EMAIL || 'MindsCraft <onboarding@resend.dev>';
 const supabaseUrl = process.env.SUPABASE_URL || '';
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
 
@@ -56,7 +57,7 @@ async function sendPurchaseConfirmation(params: SendPurchaseConfirmationParams):
 
   try {
     const result = await resend.emails.send({
-      from: 'MindsCraft <onboarding@resend.dev>',
+      from: resendFromEmail,
       to: customerEmail,
       subject: 'Purchase Confirmation from MindsCraft',
       html: `

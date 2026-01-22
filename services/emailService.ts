@@ -1,6 +1,7 @@
 import { Resend } from 'resend';
 
 const resendApiKey = process.env.RESEND_API_KEY;
+const resendFromEmail = process.env.RESEND_FROM_EMAIL || 'MindsCraft <onboarding@resend.dev>';
 const resend = resendApiKey ? new Resend(resendApiKey) : null;
 
 export interface SendPurchaseConfirmationParams {
@@ -23,11 +24,11 @@ export const sendPurchaseConfirmation = async (params: SendPurchaseConfirmationP
 
   try {
     console.log('📧 Sending email via Resend...');
-    // Note: Update the 'from' address to your verified domain in production
-    // For testing, you can use: onboarding@resend.dev
-    // For production: 'MindsCraft <noreply@yourdomain.com>'
+    // Note: Update RESEND_FROM_EMAIL environment variable to your verified domain
+    // For testing: 'MindsCraft <onboarding@resend.dev>' (only sends to your own email)
+    // For production: 'MindsCraft <noreply@yourdomain.com>' (sends to any email)
     const result = await resend.emails.send({
-      from: 'MindsCraft <onboarding@resend.dev>',
+      from: resendFromEmail,
       to: customerEmail,
       subject: 'Purchase Confirmation from MindsCraft',
       html: `
