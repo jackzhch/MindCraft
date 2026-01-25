@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  
+  <!-- Homepage -->
+  <url>
+    <loc>https://mindscraft.vercel.app/</loc>
+    <lastmod>2026-01-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  
+  <!-- Products Section -->
+  <url>
+    <loc>https://mindscraft.vercel.app/#products</loc>
+    <lastmod>2026-01-25</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Individual Product Pages (if you add them later) -->
+  <url>
+    <loc>https://mindscraft.vercel.app/products/second-brain-os</loc>
+    <lastmod>2026-01-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://mindscraft.vercel.app/products/second-brain.jpg</image:loc>
+      <image:title>The Second Brain OS</image:title>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://mindscraft.vercel.app/products/focus-framework</loc>
+    <lastmod>2026-01-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://mindscraft.vercel.app/products/focus-framework.jpg</image:loc>
+      <image:title>Focus Framework 2.0</image:title>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://mindscraft.vercel.app/products/stoic-journal</loc>
+    <lastmod>2026-01-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://mindscraft.vercel.app/products/stoic-journal.jpg</image:loc>
+      <image:title>Stoic Reflection Journal</image:title>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://mindscraft.vercel.app/products/zettelkasten-guide</loc>
+    <lastmod>2026-01-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://mindscraft.vercel.app/products/zettelkasten.jpg</image:loc>
+      <image:title>Zettelkasten Mastery Guide</image:title>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://mindscraft.vercel.app/products/habit-architect</loc>
+    <lastmod>2026-01-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://mindscraft.vercel.app/products/habit-architect.jpg</image:loc>
+      <image:title>Habit Architect</image:title>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://mindscraft.vercel.app/products/cognitive-bias-cheat-sheet</loc>
+    <lastmod>2026-01-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://mindscraft.vercel.app/products/cognitive-bias.jpg</image:loc>
+      <image:title>Cognitive Bias Cheat Sheet</image:title>
+    </image:image>
+  </url>
+  
+  <!-- Purchase History (requires auth) -->
+  <url>
+    <loc>https://mindscraft.vercel.app/#purchases</loc>
+    <lastmod>2026-01-25</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  
+</urlset>
+

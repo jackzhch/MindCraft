@@ -19,6 +19,7 @@ A modern e-commerce platform for digital knowledge management tools with AI-powe
 - 🎨 **Beautiful UI** - Dark-themed design with Tailwind CSS
 - ⚡ **Fast & Scalable** - Built with Vite, React 19, and Vercel serverless functions
 - 🔒 **Secure** - PCI-compliant payments, RLS database policies, HTTPS everywhere
+- 🔍 **SEO Optimized** - Full meta tags, Open Graph, structured data, and sitemap
 
 ## 🚀 Quick Start
 
@@ -323,6 +324,7 @@ vercel dev       # Runs both frontend and serverless functions
 
 - [Supabase Setup Guide](./SUPABASE_SETUP.md) - Complete guide for authentication and database
 - [Webhook Setup Guide](./WEBHOOK_SETUP.md) - Complete guide for webhooks and email notifications
+- [SEO Optimization Guide](./SEO_GUIDE.md) - Complete SEO setup and best practices
 - [Supabase Documentation](https://supabase.com/docs)
 - [Stripe Documentation](https://stripe.com/docs)
 - [Resend Documentation](https://resend.com/docs)
@@ -330,8 +332,58 @@ vercel dev       # Runs both frontend and serverless functions
 - [React Documentation](https://react.dev)
 - [Tailwind CSS](https://tailwindcss.com)
 
+## 🔍 SEO Features
+
+MindsCraft is fully optimized for search engines and social media sharing:
+
+### Search Engine Optimization
+- ✅ **Comprehensive Meta Tags** - Title, description, keywords, canonical URL
+- ✅ **Open Graph Tags** - Rich previews on Facebook, LinkedIn, Discord
+- ✅ **Twitter Card Tags** - Optimized sharing on Twitter/X
+- ✅ **Structured Data (JSON-LD)** - Product schema, Organization schema, WebSite schema
+- ✅ **Sitemap.xml** - Complete site structure for search engines
+- ✅ **Robots.txt** - Proper crawler instructions
+- ✅ **Web Manifest** - PWA support and mobile optimization
+- ✅ **Semantic HTML** - Proper heading structure and landmarks
+- ✅ **Performance Optimized** - Code splitting, lazy loading, fast load times
+- ✅ **Mobile Responsive** - Perfect experience on all devices
+- ✅ **Security Headers** - XSS protection, frame options, content type options
+
+### Testing Your SEO
+
+Before going live, test your site with these tools:
+
+1. **Google Search Console** - Submit sitemap and monitor indexing
+   - URL: https://search.google.com/search-console
+
+2. **Google Rich Results Test** - Test structured data
+   - URL: https://search.google.com/test/rich-results
+
+3. **Facebook Sharing Debugger** - Test Open Graph tags
+   - URL: https://developers.facebook.com/tools/debug/
+
+4. **Twitter Card Validator** - Test Twitter cards
+   - URL: https://cards-dev.twitter.com/validator
+
+5. **PageSpeed Insights** - Test performance and SEO score
+   - URL: https://pagespeed.web.dev/
+
+### Pre-Launch SEO Checklist
+
+- [ ] Update canonical URLs with your production domain
+- [ ] Create and add social media preview images (1200x630px)
+- [ ] Generate actual favicon PNG files
+- [ ] Submit sitemap to Google Search Console
+- [ ] Test meta tags with debugging tools
+- [ ] Verify structured data with Rich Results Test
+- [ ] Check mobile responsiveness
+- [ ] Run PageSpeed Insights audit
+
+For detailed SEO documentation, see [SEO_GUIDE.md](./SEO_GUIDE.md)
+
 ## 🎯 Going Live Checklist
 
+### Infrastructure
 - [ ] Set up Supabase project and run schema
 - [ ] Enable email confirmations in Supabase Auth
 - [ ] Test authentication (signup, login, logout)
@@ -342,8 +394,29 @@ vercel dev       # Runs both frontend and serverless functions
 - [ ] Switch to live Stripe keys
 - [ ] Test with small real transaction
 - [ ] Verify purchase appears in database and purchase history
+
+### SEO & Marketing
+- [ ] Update all URLs from localhost/vercel to production domain
+- [ ] Create and upload social media preview images (og-image.jpg, twitter-image.jpg)
+- [ ] Generate and upload favicon files (PNG versions)
+- [ ] Submit sitemap to Google Search Console
+- [ ] Submit sitemap to Bing Webmaster Tools
+- [ ] Test meta tags with Facebook Debugger
+- [ ] Test Twitter Card preview
+- [ ] Verify structured data with Google Rich Results Test
+- [ ] Run PageSpeed Insights audit
+- [ ] Set up Google Analytics (optional)
+- [ ] Enable Vercel Analytics
+
+### Final Checks
+- [ ] Test on mobile devices (iOS, Android)
+- [ ] Check all links work (no 404s)
+- [ ] Verify email notifications are sent
+- [ ] Test checkout flow end-to-end
 - [ ] Monitor for 24 hours
 - [ ] Announce launch! 🎊
+
+**SEO Resources**: See [SEO_GUIDE.md](./SEO_GUIDE.md) and [SEO_CHECKLIST.md](./SEO_CHECKLIST.md)
 
 ## 🤝 Support
 

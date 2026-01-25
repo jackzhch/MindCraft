@@ -113,6 +113,11 @@ const AppContent: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-obsidian text-paper font-sans selection:bg-accent selection:text-white">
+      {/* Skip to main content link for accessibility */}
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-accent focus:text-white focus:rounded-lg">
+        Skip to main content
+      </a>
+      
       <Navbar 
         cartCount={cartCount} 
         onOpenCart={() => setIsCartOpen(true)} 
@@ -156,15 +161,16 @@ const AppContent: React.FC = () => {
         </div>
       )}
       
-      <main>
+      <main id="main-content" role="main">
         {showPurchaseHistory ? (
-          <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+          <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24" aria-labelledby="purchase-history-heading">
             <button
               onClick={() => {
                 setShowPurchaseHistory(false);
                 window.history.replaceState({}, document.title, window.location.pathname);
               }}
               className="mb-6 text-purple-400 hover:text-purple-300 flex items-center gap-2"
+              aria-label="Back to shop"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -177,14 +183,14 @@ const AppContent: React.FC = () => {
           <>
             <Hero />
         
-        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16" id="products">
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16" id="products" aria-labelledby="products-heading">
           <div className="flex flex-col md:flex-row justify-between items-end mb-12">
             <div>
-              <h2 className="text-3xl font-bold font-serif text-white mb-2">Curated Tools</h2>
+              <h2 id="products-heading" className="text-3xl font-bold font-serif text-white mb-2">Curated Tools</h2>
               <p className="text-gray-300">Digital artifacts to enhance your cognition.</p>
             </div>
             
-            <div className="flex gap-2 mt-4 md:mt-0">
+            <div className="flex gap-2 mt-4 md:mt-0" role="group" aria-label="Filter products by category">
               {['All', 'System', 'Template', 'Guide'].map(category => (
                 <button
                   key={category}
@@ -194,6 +200,8 @@ const AppContent: React.FC = () => {
                       ? 'bg-white text-obsidian'
                       : 'bg-cement/50 text-gray-300 hover:bg-cement hover:text-white'
                   }`}
+                  aria-pressed={selectedCategory === category}
+                  aria-label={`Filter by ${category}`}
                 >
                   {category === 'System' ? 'Systems' : category === 'Template' ? 'Templates' : category === 'Guide' ? 'Guides' : category}
                 </button>
@@ -201,7 +209,7 @@ const AppContent: React.FC = () => {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" role="list" aria-label="Product catalog">
             {filteredProducts.map(product => (
               <ProductCard 
                 key={product.id} 
@@ -211,24 +219,27 @@ const AppContent: React.FC = () => {
             ))}
           </div>
           {filteredProducts.length === 0 && (
-            <p className="text-center text-gray-300 mt-8">No products found in this category.</p>
+            <p className="text-center text-gray-300 mt-8" role="status">No products found in this category.</p>
           )}
         </section>
 
-        <section className="bg-charcoal border-t border-cement py-24 mt-16">
+        <section className="bg-charcoal border-t border-cement py-24 mt-16" aria-labelledby="newsletter-heading">
           <div className="max-w-4xl mx-auto px-4 text-center">
-            <h2 className="text-3xl font-serif font-bold text-white mb-6">Join the Intelligent Few</h2>
+            <h2 id="newsletter-heading" className="text-3xl font-serif font-bold text-white mb-6">Join the Intelligent Few</h2>
             <p className="text-gray-300 mb-8 leading-relaxed">
               We are building a community of thinkers who value clarity over chaos. 
               Subscribe to our newsletter for weekly insights on knowledge management and mental models.
             </p>
-            <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
+            <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto" aria-label="Newsletter subscription form">
+              <label htmlFor="newsletter-email" className="sr-only">Email address</label>
               <input
+                id="newsletter-email"
                 type="email" 
                 placeholder="Enter your email" 
                 value={subscribeEmail}
                 onChange={(e) => setSubscribeEmail(e.target.value)}
                 required
+                aria-required="true"
                 className="flex-1 px-4 py-3 bg-obsidian border border-cement rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
               />
               <button type="submit" className="px-8 py-3 bg-white text-obsidian font-bold rounded-lg hover:bg-gray-200 transition-colors">
@@ -241,14 +252,14 @@ const AppContent: React.FC = () => {
         )}
       </main>
 
-      <footer className="bg-obsidian border-t border-cement py-12">
+      <footer className="bg-obsidian border-t border-cement py-12" role="contentinfo">
         <div className="max-w-7xl mx-auto px-4 text-center text-sm text-gray-400">
           <p>&copy; {new Date().getFullYear()} MindsCraft Digital. All rights reserved.</p>
-          <div className="mt-4 space-x-4">
-            <a href="#" className="hover:text-gray-200 transition-colors">Privacy</a>
-            <a href="#" className="hover:text-gray-200 transition-colors">Terms</a>
-            <a href="#" className="hover:text-gray-200 transition-colors">Support</a>
-          </div>
+          <nav className="mt-4 space-x-4" aria-label="Footer navigation">
+            <a href="#privacy" className="hover:text-gray-200 transition-colors">Privacy</a>
+            <a href="#terms" className="hover:text-gray-200 transition-colors">Terms</a>
+            <a href="#support" className="hover:text-gray-200 transition-colors">Support</a>
+          </nav>
         </div>
       </footer>
 
