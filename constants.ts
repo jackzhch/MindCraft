@@ -4,7 +4,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'p1',
     title: 'The Second Brain OS',
-    description: 'A comprehensive Notion workspace designed to capture, organize, and distill your digital life. Based on PARA methodology.',
+    description: 'Never forget an idea again. This battle-tested PARA workspace captures every insight, organizes your entire digital life, and surfaces the right knowledge exactly when you need it. Used by 10,000+ knowledge workers.',
     price: 9.00,
     category: 'System',
     image: 'https://picsum.photos/seed/secondbrain/800/600',
@@ -13,7 +13,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'p2',
     title: 'Focus Framework 2.0',
-    description: 'A deep work protocol and planner for high-performers. Includes daily drill templates and distraction-blocking scripts.',
+    description: 'Reclaim 15+ hours weekly. This proven deep work system eliminates distractions and multiplies your output. Includes time-blocking templates that top performers pay $1000+ for in coaching sessions.',
     price: 9.00,
     category: 'Template',
     image: 'https://picsum.photos/seed/focus/800/600',
@@ -22,7 +22,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'p3',
     title: 'Stoic Reflection Journal',
-    description: 'Digital journaling templates based on Marcus Aurelius\' nightly reviews. Cultivate resilience and clarity.',
+    description: 'Build unshakeable mental strength in just 10 minutes daily. Based on the ancient wisdom of Marcus Aurelius, this journaling system helps you navigate chaos, make better decisions, and find meaning in everyday life.',
     price: 19.00,
     category: 'Template',
     image: 'https://picsum.photos/seed/stoic/800/600',
@@ -31,7 +31,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'p4',
     title: 'Zettelkasten Mastery Guide',
-    description: 'The definitive guide to implementing a slip-box system for networked thought and prolific writing.',
+    description: 'Write 10x faster with a thinking system used by history\'s most prolific authors. Transform scattered notes into a powerful idea engine that generates insights while you sleep. Includes plug-and-play Obsidian vault.',
     price: 19.00,
     category: 'Guide',
     image: 'https://picsum.photos/seed/zettel/800/600',
@@ -40,7 +40,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'p5',
     title: 'Habit Architect',
-    description: 'A behavioral science-backed system to build good habits and break bad ones using atomic progression.',
+    description: 'Finally stick to your habits. This neuroscience-backed system makes behavior change effortless through micro-commitments and visible progress. Join 5,000+ people who\'ve transformed their lives one tiny habit at a time.',
     price: 29.00,
     category: 'System',
     image: 'https://picsum.photos/seed/habit/800/600',
@@ -49,7 +49,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 'p6',
     title: 'Cognitive Bias Cheat Sheet',
-    description: 'A visual reference aimed at improving decision making by highlighting common mental pitfalls.',
+    description: 'Stop making expensive mental mistakes. This beautifully designed reference exposes the hidden patterns sabotaging your decisions. One insight could save you thousands in bad choices—business, investment, or life.',
     price: 29.00,
     category: 'Guide',
     image: 'https://picsum.photos/seed/cognitive/800/600',

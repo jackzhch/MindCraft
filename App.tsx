@@ -225,10 +225,10 @@ const AppContent: React.FC = () => {
 
         <section className="bg-charcoal border-t border-cement py-24 mt-16" aria-labelledby="newsletter-heading">
           <div className="max-w-4xl mx-auto px-4 text-center">
-            <h2 id="newsletter-heading" className="text-3xl font-serif font-bold text-white mb-6">Join the Intelligent Few</h2>
+            <h2 id="newsletter-heading" className="text-3xl font-serif font-bold text-white mb-6">Join 12,000+ Strategic Thinkers</h2>
             <p className="text-gray-300 mb-8 leading-relaxed">
-              We are building a community of thinkers who value clarity over chaos. 
-              Subscribe to our newsletter for weekly insights on knowledge management and mental models.
+              Get exclusive weekly insights on knowledge management, mental models, and cognitive tools that give you an unfair advantage. 
+              <span className="block mt-2 text-purple-400">No fluff. Just actionable intelligence you can use Monday morning.</span>
             </p>
             <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto" aria-label="Newsletter subscription form">
               <label htmlFor="newsletter-email" className="sr-only">Email address</label>
@@ -242,10 +242,11 @@ const AppContent: React.FC = () => {
                 aria-required="true"
                 className="flex-1 px-4 py-3 bg-obsidian border border-cement rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
               />
-              <button type="submit" className="px-8 py-3 bg-white text-obsidian font-bold rounded-lg hover:bg-gray-200 transition-colors">
-                Subscribe
+              <button type="submit" className="px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all transform hover:scale-105 shadow-lg">
+                Get Free Insights
               </button>
             </form>
+            <p className="mt-4 text-sm text-gray-400">🔒 We respect your inbox. Unsubscribe anytime.</p>
           </div>
         </section>
           </>
