@@ -41,7 +41,7 @@ export const PRODUCTS: Product[] = [
     id: 'p5',
     title: 'Habit Architect',
     description: 'Finally stick to your habits. This neuroscience-backed system makes behavior change effortless through micro-commitments and visible progress. Join 5,000+ people who\'ve transformed their lives one tiny habit at a time.',
-    price: 29.00,
+    price: 59.00,
     category: 'System',
     image: 'https://picsum.photos/seed/habit/800/600',
     features: ['Streak Visualization', 'Trigger Mapping', 'Reward System']
@@ -50,7 +50,7 @@ export const PRODUCTS: Product[] = [
     id: 'p6',
     title: 'Cognitive Bias Cheat Sheet',
     description: 'Stop making expensive mental mistakes. This beautifully designed reference exposes the hidden patterns sabotaging your decisions. One insight could save you thousands in bad choices—business, investment, or life.',
-    price: 29.00,
+    price: 59.00,
     category: 'Guide',
     image: 'https://picsum.photos/seed/cognitive/800/600',
     features: ['High-Res PDF', 'Flashcards', 'Decision Checklist']

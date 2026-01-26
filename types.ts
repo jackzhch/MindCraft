@@ -22,6 +22,8 @@ export interface Bundle {
 
 export interface CartItem extends Product {
   quantity: number;
+  isBundle?: boolean;
+  bundleId?: string;
 }
 
 export interface ChatMessage {

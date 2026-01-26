@@ -52,7 +52,14 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose, items, onRemov
                     <div className="ml-4 flex flex-1 flex-col">
                       <div>
                         <div className="flex justify-between text-base font-medium text-white">
-                          <h3>{item.title}</h3>
+                          <div>
+                            <h3>{item.title}</h3>
+                            {item.isBundle && (
+                              <span className="inline-block mt-1 px-2 py-0.5 bg-gradient-to-r from-purple-600 to-pink-600 text-white text-xs font-bold rounded-full">
+                                🎁 BUNDLE
+                              </span>
+                            )}
+                          </div>
                           <p className="ml-4">${(item.price * item.quantity).toFixed(2)}</p>
                         </div>
                         <p className="mt-1 text-sm text-gray-500">{item.category}</p>

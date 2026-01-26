@@ -97,13 +97,30 @@ const AppContent: React.FC = () => {
     const bundle = BUNDLES.find(b => b.id === bundleId);
     if (!bundle) return;
 
-    // Add all products from the bundle to cart
-    bundle.productIds.forEach(productId => {
-      const product = PRODUCTS.find(p => p.id === productId);
-      if (product) {
-        handleAddToCart(product);
+    // Create a special bundle cart item with the bundle price
+    const bundleCartItem: CartItem = {
+      id: bundle.id,
+      title: bundle.title,
+      description: bundle.description,
+      price: bundle.price, // Use bundle price, not sum of individual products
+      category: 'System' as const,
+      image: bundle.image,
+      features: bundle.features,
+      quantity: 1,
+      isBundle: true,
+      bundleId: bundle.id
+    };
+
+    setCartItems(prev => {
+      const existing = prev.find(item => item.id === bundle.id);
+      if (existing) {
+        return prev.map(item => 
+          item.id === bundle.id ? { ...item, quantity: item.quantity + 1 } : item
+        );
       }
+      return [...prev, bundleCartItem];
     });
+    setIsCartOpen(true);
   };
 
   const handleRemoveFromCart = (id: string) => {
@@ -252,16 +269,6 @@ const AppContent: React.FC = () => {
             </div>
           </div>
 
-          {/* Bundle Section - Show First */}
-          {BUNDLES.map(bundle => (
-            <div key={bundle.id} className="mb-12">
-              <BundleCard 
-                bundle={bundle} 
-                onAddToCart={() => handleAddBundleToCart(bundle.id)}
-              />
-            </div>
-          ))}
-
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" role="list" aria-label="Product catalog">
             {filteredProducts.map(product => (
               <ProductCard 
@@ -274,6 +281,20 @@ const AppContent: React.FC = () => {
           {filteredProducts.length === 0 && (
             <p className="text-center text-gray-300 mt-8" role="status">No products found in this category.</p>
           )}
+
+          {/* Bundle Section - Show at End */}
+          {BUNDLES.map(bundle => (
+            <div key={bundle.id} className="mt-12">
+              <div className="text-center mb-8">
+                <h3 className="text-3xl font-serif font-bold text-white mb-2">💎 Best Value Bundle</h3>
+                <p className="text-gray-300">Get our top 3 systems together and save big</p>
+              </div>
+              <BundleCard 
+                bundle={bundle} 
+                onAddToCart={() => handleAddBundleToCart(bundle.id)}
+              />
+            </div>
+          ))}
         </section>
 
         {/* Testimonials Section */}
