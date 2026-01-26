@@ -5,9 +5,9 @@ const Hero: React.FC = () => {
     <div className="relative overflow-hidden pt-32 pb-20 lg:pt-48 lg:pb-32">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
         <h1 className="text-5xl md:text-7xl font-serif font-bold text-white mb-6 leading-tight tracking-tight">
-          From Chaos to <br/>
+          Build Your <br/>
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-purple-400">
-            Clarity
+            Second Brain
           </span>
         </h1>
         <p className="mt-4 max-w-2xl mx-auto text-xl text-gray-300 leading-relaxed">

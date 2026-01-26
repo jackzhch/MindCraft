@@ -282,8 +282,8 @@ const AppContent: React.FC = () => {
             <p className="text-center text-gray-300 mt-8" role="status">No products found in this category.</p>
           )}
 
-          {/* Bundle Section - Show at End */}
-          {BUNDLES.map(bundle => (
+          {/* Bundle Section - Only show when viewing "All" products */}
+          {selectedCategory === 'All' && BUNDLES.map(bundle => (
             <div key={bundle.id} className="mt-12">
               <div className="text-center mb-8">
                 <h3 className="text-3xl font-serif font-bold text-white mb-2">💎 Best Value Bundle</h3>

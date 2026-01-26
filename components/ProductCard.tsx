@@ -7,6 +7,11 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
+  const hasDiscount = product.originalPrice && product.originalPrice > product.price;
+  const discountPercentage = hasDiscount 
+    ? Math.round(((product.originalPrice! - product.price) / product.originalPrice!) * 100)
+    : 0;
+
   return (
     <div className="group relative bg-charcoal rounded-xl overflow-hidden border border-cement hover:border-accent/50 transition-all duration-300 flex flex-col h-full">
       <div className="aspect-[4/3] overflow-hidden bg-gradient-to-br from-cement to-charcoal relative">
@@ -15,7 +20,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
           alt={product.title} 
           className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
         />
-        <div className="absolute top-3 right-3">
+        <div className="absolute top-3 right-3 flex gap-2">
+          {hasDiscount && (
+            <span className="inline-block px-3 py-1 bg-gradient-to-r from-red-500 to-orange-500 text-white text-xs font-bold rounded-full shadow-lg animate-pulse">
+              {discountPercentage}% OFF
+            </span>
+          )}
           <span className="inline-block px-3 py-1 bg-white/90 backdrop-blur-sm text-obsidian text-xs font-medium rounded-full shadow-lg">
             {product.category}
           </span>
@@ -42,7 +52,16 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onAddToCart }) => {
           </ul>
         </div>
         <div className="flex items-center justify-between mt-auto">
-          <span className="text-2xl font-bold text-white">${product.price.toFixed(2)}</span>
+          <div>
+            {hasDiscount ? (
+              <div className="flex flex-col">
+                <span className="text-sm text-gray-400 line-through">${product.originalPrice!.toFixed(2)}</span>
+                <span className="text-2xl font-bold text-green-400">${product.price.toFixed(2)}</span>
+              </div>
+            ) : (
+              <span className="text-2xl font-bold text-white">${product.price.toFixed(2)}</span>
+            )}
+          </div>
           <button 
             onClick={() => onAddToCart(product)}
             className="px-6 py-2.5 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-lg font-semibold hover:from-purple-700 hover:to-indigo-700 transition-all transform hover:scale-105 shadow-lg"
