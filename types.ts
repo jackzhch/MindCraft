@@ -4,7 +4,7 @@ export interface Product {
   description: string;
   price: number;
   originalPrice?: number;
-  category: 'System' | 'Template' | 'Guide';
+  category: 'System' | 'Guide';
   image: string;
   features: string[];
 }

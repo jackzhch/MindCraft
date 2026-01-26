@@ -26,6 +26,29 @@ const AppContent: React.FC = () => {
   const [subscribeEmail, setSubscribeEmail] = useState('');
   const [showExitIntent, setShowExitIntent] = useState(false);
 
+  // Handle navigation to reviews section
+  const handleNavigateToReviews = () => {
+    setShowPurchaseHistory(false); // Exit purchase history if in that view
+    setTimeout(() => {
+      const reviewsSection = document.getElementById('reviews');
+      if (reviewsSection) {
+        reviewsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100);
+  };
+
+  // Handle category filter with navigation back to products
+  const handleCategoryChange = (category: string) => {
+    setShowPurchaseHistory(false); // Exit purchase history if in that view
+    setSelectedCategory(category);
+    setTimeout(() => {
+      const productsSection = document.getElementById('products');
+      if (productsSection) {
+        productsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100);
+  };
+
   // Exit Intent Detection
   useEffect(() => {
     // Check if user has already seen the exit intent modal
@@ -183,6 +206,8 @@ const AppContent: React.FC = () => {
         onOpenCart={() => setIsCartOpen(true)} 
         onAuthClick={() => setIsAuthModalOpen(true)}
         onPurchasesClick={() => setShowPurchaseHistory(true)}
+        onSystemsClick={() => handleCategoryChange('System')}
+        onReviewsClick={handleNavigateToReviews}
       />
       
       {/* Success Message */}
@@ -227,6 +252,7 @@ const AppContent: React.FC = () => {
             <button
               onClick={() => {
                 setShowPurchaseHistory(false);
+                setSelectedCategory('All');
                 window.history.replaceState({}, document.title, window.location.pathname);
               }}
               className="mb-6 text-purple-400 hover:text-purple-300 flex items-center gap-2"
@@ -251,10 +277,10 @@ const AppContent: React.FC = () => {
             </div>
             
             <div className="flex gap-2 mt-4 md:mt-0" role="group" aria-label="Filter products by category">
-              {['All', 'System', 'Template', 'Guide'].map(category => (
+              {['All', 'System', 'Guide'].map(category => (
                 <button
                   key={category}
-                  onClick={() => setSelectedCategory(category)}
+                  onClick={() => handleCategoryChange(category)}
                   className={`px-4 py-2 text-xs uppercase tracking-wide font-medium rounded-md transition-colors ${
                     selectedCategory === category
                       ? 'bg-white text-obsidian'
@@ -263,9 +289,16 @@ const AppContent: React.FC = () => {
                   aria-pressed={selectedCategory === category}
                   aria-label={`Filter by ${category}`}
                 >
-                  {category === 'System' ? 'Systems' : category === 'Template' ? 'Templates' : category === 'Guide' ? 'Guides' : category}
+                  {category === 'System' ? 'Systems' : category === 'Guide' ? 'Guides' : category}
                 </button>
               ))}
+              <button
+                onClick={handleNavigateToReviews}
+                className="px-4 py-2 text-xs uppercase tracking-wide font-medium rounded-md transition-colors bg-cement/50 text-gray-300 hover:bg-cement hover:text-white"
+                aria-label="View reviews"
+              >
+                Reviews
+              </button>
             </div>
           </div>
 

@@ -3,7 +3,7 @@ import { TESTIMONIALS } from '../constants';
 
 const Testimonials: React.FC = () => {
   return (
-    <section className="py-20 bg-charcoal" aria-labelledby="testimonials-heading">
+    <section id="reviews" className="py-20 bg-charcoal" aria-labelledby="testimonials-heading">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12">

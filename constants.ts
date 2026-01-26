@@ -15,7 +15,7 @@ export const PRODUCTS: Product[] = [
     title: 'Focus Framework 2.0',
     description: 'Reclaim 15+ hours weekly. This proven deep work system eliminates distractions and multiplies your output. Includes time-blocking templates that top performers pay $1000+ for in coaching sessions.',
     price: 9.00,
-    category: 'Template',
+    category: 'System',
     image: 'https://picsum.photos/seed/focus/800/600',
     features: ['Time Blocking Sheets', 'Energy Audit', 'Ritual Design']
   },
@@ -24,7 +24,7 @@ export const PRODUCTS: Product[] = [
     title: 'Stoic Reflection Journal',
     description: 'Build unshakeable mental strength in just 10 minutes daily. Based on the ancient wisdom of Marcus Aurelius, this journaling system helps you navigate chaos, make better decisions, and find meaning in everyday life.',
     price: 19.00,
-    category: 'Template',
+    category: 'System',
     image: 'https://picsum.photos/seed/stoic/800/600',
     features: ['Morning Prep', 'Evening Review', 'Value Tracking']
   },
