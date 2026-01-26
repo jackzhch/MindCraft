@@ -3,12 +3,15 @@ import { AuthProvider } from './contexts/AuthContext';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import ProductCard from './components/ProductCard';
+import BundleCard from './components/BundleCard';
 import CartDrawer from './components/CartDrawer';
 import CheckoutModal from './components/CheckoutModal';
 import GeminiAssistant from './components/GeminiAssistant';
 import AuthModal from './components/AuthModal';
 import PurchaseHistory from './components/PurchaseHistory';
-import { PRODUCTS } from './constants';
+import Testimonials from './components/Testimonials';
+import ExitIntentModal from './components/ExitIntentModal';
+import { PRODUCTS, BUNDLES } from './constants';
 import { Product, CartItem } from './types';
 
 const AppContent: React.FC = () => {
@@ -21,7 +24,34 @@ const AppContent: React.FC = () => {
   const [showPurchaseHistory, setShowPurchaseHistory] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [subscribeEmail, setSubscribeEmail] = useState('');
+  const [showExitIntent, setShowExitIntent] = useState(false);
 
+  // Exit Intent Detection
+  useEffect(() => {
+    // Check if user has already seen the exit intent modal
+    const hasSeenExitIntent = localStorage.getItem('exitIntentShown');
+    if (hasSeenExitIntent) return;
+
+    let exitIntentTriggered = false;
+
+    const handleMouseLeave = (e: MouseEvent) => {
+      // Trigger when mouse leaves from top of page (trying to close tab/window)
+      if (e.clientY <= 0 && !exitIntentTriggered) {
+        exitIntentTriggered = true;
+        setShowExitIntent(true);
+      }
+    };
+
+    // Wait 5 seconds before activating exit intent
+    const timer = setTimeout(() => {
+      document.addEventListener('mouseleave', handleMouseLeave);
+    }, 5000);
+
+    return () => {
+      clearTimeout(timer);
+      document.removeEventListener('mouseleave', handleMouseLeave);
+    };
+  }, []);
   // Handle Stripe redirect responses
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -61,6 +91,19 @@ const AppContent: React.FC = () => {
       return [...prev, { ...product, quantity: 1 }];
     });
     setIsCartOpen(true);
+  };
+
+  const handleAddBundleToCart = (bundleId: string) => {
+    const bundle = BUNDLES.find(b => b.id === bundleId);
+    if (!bundle) return;
+
+    // Add all products from the bundle to cart
+    bundle.productIds.forEach(productId => {
+      const product = PRODUCTS.find(p => p.id === productId);
+      if (product) {
+        handleAddToCart(product);
+      }
+    });
   };
 
   const handleRemoveFromCart = (id: string) => {
@@ -209,6 +252,16 @@ const AppContent: React.FC = () => {
             </div>
           </div>
 
+          {/* Bundle Section - Show First */}
+          {BUNDLES.map(bundle => (
+            <div key={bundle.id} className="mb-12">
+              <BundleCard 
+                bundle={bundle} 
+                onAddToCart={() => handleAddBundleToCart(bundle.id)}
+              />
+            </div>
+          ))}
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" role="list" aria-label="Product catalog">
             {filteredProducts.map(product => (
               <ProductCard 
@@ -222,6 +275,9 @@ const AppContent: React.FC = () => {
             <p className="text-center text-gray-300 mt-8" role="status">No products found in this category.</p>
           )}
         </section>
+
+        {/* Testimonials Section */}
+        <Testimonials />
 
         <section className="bg-charcoal border-t border-cement py-24 mt-16" aria-labelledby="newsletter-heading">
           <div className="max-w-4xl mx-auto px-4 text-center">
@@ -286,6 +342,11 @@ const AppContent: React.FC = () => {
         isOpen={isAuthModalOpen} 
         onClose={() => setIsAuthModalOpen(false)}
       />
+
+      {/* Exit Intent Modal */}
+      {showExitIntent && (
+        <ExitIntentModal onClose={() => setShowExitIntent(false)} />
+      )}
     </div>
   );
 };

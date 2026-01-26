@@ -1,4 +1,4 @@
-import { Product } from './types';
+import { Product, Bundle, Testimonial } from './types';
 
 export const PRODUCTS: Product[] = [
   {
@@ -54,5 +54,75 @@ export const PRODUCTS: Product[] = [
     category: 'Guide',
     image: 'https://picsum.photos/seed/cognitive/800/600',
     features: ['High-Res PDF', 'Flashcards', 'Decision Checklist']
+  }
+];
+
+// Product Bundles
+export const BUNDLES: Bundle[] = [
+  {
+    id: 'bundle1',
+    title: 'The Complete Knowledge Stack',
+    description: '⚡ Get our 3 most popular systems together and save $8. Everything you need to transform scattered information into a powerful thinking machine. Perfect for serious knowledge workers.',
+    productIds: ['p1', 'p2', 'p4'],
+    price: 29.00,
+    originalPrice: 37.00,
+    savings: 8.00,
+    image: 'https://picsum.photos/seed/bundle/800/600',
+    features: [
+      'Second Brain OS - PARA workspace',
+      'Focus Framework 2.0 - Deep work system', 
+      'Zettelkasten Mastery Guide - Complete course',
+      '🎁 Bonus: Integration guide ($19 value)',
+      '💎 Save $8 vs. buying separately'
+    ]
+  }
+];
+
+// Testimonials
+export const TESTIMONIALS: Testimonial[] = [
+  {
+    id: 't1',
+    name: 'Sarah Chen',
+    role: 'Product Manager',
+    company: 'Google',
+    image: 'https://i.pravatar.cc/150?img=1',
+    text: 'The Second Brain OS helped me organize 5 years of scattered notes in just one weekend. I finally feel in control of my knowledge. Worth every penny.',
+    rating: 5
+  },
+  {
+    id: 't2',
+    name: 'Marcus Rodriguez',
+    role: 'Engineering Lead',
+    company: 'Stripe',
+    image: 'https://i.pravatar.cc/150?img=12',
+    text: 'Focus Framework 2.0 helped me reclaim 12+ hours weekly. My team noticed the difference immediately. Best $9 I ever spent on productivity.',
+    rating: 5
+  },
+  {
+    id: 't3',
+    name: 'Emily Watson',
+    role: 'UX Designer',
+    company: 'Figma',
+    image: 'https://i.pravatar.cc/150?img=5',
+    text: 'The Zettelkasten guide transformed how I connect ideas. I went from 0 to 500 interconnected notes in 3 months. My creativity has never been higher.',
+    rating: 5
+  },
+  {
+    id: 't4',
+    name: 'David Kim',
+    role: 'Startup Founder',
+    company: 'TechVentures',
+    image: 'https://i.pravatar.cc/150?img=8',
+    text: 'Bought the Complete Stack and it paid for itself in saved time within 48 hours. These aren\'t just templates—they\'re thinking systems that actually work.',
+    rating: 5
+  },
+  {
+    id: 't5',
+    name: 'Priya Patel',
+    role: 'Content Strategist',
+    company: 'Netflix',
+    image: 'https://i.pravatar.cc/150?img=9',
+    text: 'The Stoic Journal changed my life. 10 minutes of daily reflection has given me more clarity than years of therapy. Highly recommend.',
+    rating: 5
   }
 ];
