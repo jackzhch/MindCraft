@@ -1,6 +1,10 @@
 import React from 'react';
 
-const Hero: React.FC = () => {
+interface HeroProps {
+  onManifestoClick?: () => void;
+}
+
+const Hero: React.FC<HeroProps> = ({ onManifestoClick }) => {
   return (
     <div className="relative overflow-hidden pt-32 pb-20 lg:pt-48 lg:pb-32">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
@@ -21,7 +25,10 @@ const Hero: React.FC = () => {
           >
             Explore Systems
           </a>
-          <button className="px-8 py-3 border-2 border-gray-600 text-gray-200 font-semibold rounded-full hover:border-purple-500 hover:text-white hover:bg-purple-500/10 transition-all">
+          <button 
+            onClick={onManifestoClick}
+            className="px-8 py-3 border-2 border-gray-600 text-gray-200 font-semibold rounded-full hover:border-purple-500 hover:text-white hover:bg-purple-500/10 transition-all"
+          >
             Our Manifesto
           </button>
         </div>

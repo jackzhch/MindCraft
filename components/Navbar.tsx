@@ -9,9 +9,10 @@ interface NavbarProps {
   onPurchasesClick: () => void;
   onSystemsClick: () => void;
   onReviewsClick: () => void;
+  onAboutClick: () => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ cartCount, onOpenCart, onAuthClick, onPurchasesClick, onSystemsClick, onReviewsClick }) => {
+const Navbar: React.FC<NavbarProps> = ({ cartCount, onOpenCart, onAuthClick, onPurchasesClick, onSystemsClick, onReviewsClick, onAboutClick }) => {
   return (
     <nav className="fixed top-0 w-full z-50 bg-obsidian/80 backdrop-blur-md border-b border-cement">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -29,6 +30,12 @@ const Navbar: React.FC<NavbarProps> = ({ cartCount, onOpenCart, onAuthClick, onP
                 className="hover:text-white transition-colors"
               >
                 Systems
+              </button>
+              <button 
+                onClick={onAboutClick}
+                className="hover:text-white transition-colors"
+              >
+                About
               </button>
               <button 
                 onClick={onReviewsClick}

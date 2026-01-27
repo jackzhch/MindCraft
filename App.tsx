@@ -11,6 +11,7 @@ import AuthModal from './components/AuthModal';
 import PurchaseHistory from './components/PurchaseHistory';
 import Testimonials from './components/Testimonials';
 import ExitIntentModal from './components/ExitIntentModal';
+import About from './components/About';
 import { PRODUCTS, BUNDLES } from './constants';
 import { Product, CartItem } from './types';
 
@@ -22,6 +23,7 @@ const AppContent: React.FC = () => {
   const [showCancelMessage, setShowCancelMessage] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [showPurchaseHistory, setShowPurchaseHistory] = useState(false);
+  const [showAbout, setShowAbout] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [subscribeEmail, setSubscribeEmail] = useState('');
   const [showExitIntent, setShowExitIntent] = useState(false);
@@ -29,6 +31,7 @@ const AppContent: React.FC = () => {
   // Handle navigation to reviews section
   const handleNavigateToReviews = () => {
     setShowPurchaseHistory(false); // Exit purchase history if in that view
+    setShowAbout(false); // Exit about if in that view
     setTimeout(() => {
       const reviewsSection = document.getElementById('reviews');
       if (reviewsSection) {
@@ -40,6 +43,7 @@ const AppContent: React.FC = () => {
   // Handle category filter with navigation back to products
   const handleCategoryChange = (category: string) => {
     setShowPurchaseHistory(false); // Exit purchase history if in that view
+    setShowAbout(false); // Exit about if in that view
     setSelectedCategory(category);
     setTimeout(() => {
       const productsSection = document.getElementById('products');
@@ -47,6 +51,13 @@ const AppContent: React.FC = () => {
         productsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }, 100);
+  };
+
+  // Handle navigation to About page
+  const handleNavigateToAbout = () => {
+    setShowPurchaseHistory(false);
+    setShowAbout(true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   // Exit Intent Detection
@@ -205,9 +216,13 @@ const AppContent: React.FC = () => {
         cartCount={cartCount} 
         onOpenCart={() => setIsCartOpen(true)} 
         onAuthClick={() => setIsAuthModalOpen(true)}
-        onPurchasesClick={() => setShowPurchaseHistory(true)}
+        onPurchasesClick={() => {
+          setShowAbout(false);
+          setShowPurchaseHistory(true);
+        }}
         onSystemsClick={() => handleCategoryChange('System')}
         onReviewsClick={handleNavigateToReviews}
+        onAboutClick={handleNavigateToAbout}
       />
       
       {/* Success Message */}
@@ -247,7 +262,24 @@ const AppContent: React.FC = () => {
       )}
       
       <main id="main-content" role="main">
-        {showPurchaseHistory ? (
+        {showAbout ? (
+          <section aria-labelledby="about-heading">
+            <button
+              onClick={() => {
+                setShowAbout(false);
+                setSelectedCategory('All');
+              }}
+              className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 mb-6 text-purple-400 hover:text-purple-300 flex items-center gap-2"
+              aria-label="Back to shop"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+              Back to Shop
+            </button>
+            <About />
+          </section>
+        ) : showPurchaseHistory ? (
           <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24" aria-labelledby="purchase-history-heading">
             <button
               onClick={() => {
@@ -267,7 +299,7 @@ const AppContent: React.FC = () => {
           </section>
         ) : (
           <>
-            <Hero />
+            <Hero onManifestoClick={handleNavigateToAbout} />
         
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16" id="products" aria-labelledby="products-heading">
           <div className="flex flex-col md:flex-row justify-between items-end mb-12">
@@ -367,6 +399,7 @@ const AppContent: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 text-center text-sm text-gray-400">
           <p>&copy; {new Date().getFullYear()} MindsCraft Digital. All rights reserved.</p>
           <nav className="mt-4 space-x-4" aria-label="Footer navigation">
+            <button onClick={handleNavigateToAbout} className="hover:text-gray-200 transition-colors">About</button>
             <a href="#privacy" className="hover:text-gray-200 transition-colors">Privacy</a>
             <a href="#terms" className="hover:text-gray-200 transition-colors">Terms</a>
             <a href="#support" className="hover:text-gray-200 transition-colors">Support</a>
