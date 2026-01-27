@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface ExitIntentModalProps {
   onClose: () => void;
 }
 
 const ExitIntentModal: React.FC<ExitIntentModalProps> = ({ onClose }) => {
+  const { t } = useLanguage();
   const [email, setEmail] = useState('');
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -114,6 +116,22 @@ const ExitIntentModal: React.FC<ExitIntentModalProps> = ({ onClose }) => {
                 className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold py-4 px-6 rounded-lg transition-all transform hover:scale-105 shadow-lg hover:shadow-purple-500/50"
               >
                 🎁 Claim My 20% Discount
+              </button>
+              
+              <button
+                type="button"
+                onClick={() => {
+                  handleClose();
+                  setTimeout(() => {
+                    const productsSection = document.getElementById('products');
+                    if (productsSection) {
+                      productsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                  }, 100);
+                }}
+                className="w-full bg-transparent border-2 border-purple-500 hover:bg-purple-500/10 text-white font-bold py-4 px-6 rounded-lg transition-all"
+              >
+                {t.about.ctaButton}
               </button>
             </form>
 
