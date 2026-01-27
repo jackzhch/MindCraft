@@ -1,35 +1,37 @@
 import React from 'react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface HeroProps {
   onManifestoClick?: () => void;
 }
 
 const Hero: React.FC<HeroProps> = ({ onManifestoClick }) => {
+  const { t } = useLanguage();
   return (
     <div className="relative overflow-hidden pt-32 pb-20 lg:pt-48 lg:pb-32">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
         <h1 className="text-5xl md:text-7xl font-serif font-bold text-white mb-6 leading-tight tracking-tight">
-          Build Your <br/>
+          {t.hero.title1} <br/>
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-purple-400">
-            Second Brain
+            {t.hero.title2}
           </span>
         </h1>
         <p className="mt-4 max-w-2xl mx-auto text-xl text-gray-300 leading-relaxed">
-          Battle-tested systems for knowledge workers who refuse to drown in information. 
-          <span className="block mt-2 text-purple-400 font-semibold">Think clearer. Work smarter. Achieve more.</span>
+          {t.hero.subtitle}
+          <span className="block mt-2 text-purple-400 font-semibold">{t.hero.tagline}</span>
         </p>
         <div className="mt-10 flex justify-center gap-4 flex-wrap">
           <a 
             href="#products" 
             className="px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-full hover:from-purple-700 hover:to-pink-700 transition-all transform hover:scale-105 shadow-lg shadow-purple-500/25"
           >
-            Explore Systems
+            {t.hero.exploreButton}
           </a>
           <button 
             onClick={onManifestoClick}
             className="px-8 py-3 border-2 border-gray-600 text-gray-200 font-semibold rounded-full hover:border-purple-500 hover:text-white hover:bg-purple-500/10 transition-all"
           >
-            Our Manifesto
+            {t.hero.manifestoButton}
           </button>
         </div>
       </div>

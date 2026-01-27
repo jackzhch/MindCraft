@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { AuthProvider } from './contexts/AuthContext';
+import { LanguageProvider, useLanguage } from './contexts/LanguageContext';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import ProductCard from './components/ProductCard';
@@ -17,6 +18,7 @@ import { Product, CartItem } from './types';
 import { supabase } from './lib/supabase';
 
 const AppContent: React.FC = () => {
+  const { t } = useLanguage();
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
@@ -204,7 +206,7 @@ const AppContent: React.FC = () => {
     
     // Basic email validation
     if (!subscribeEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(subscribeEmail)) {
-      setSubscribeMessage({ type: 'error', text: 'Please enter a valid email address' });
+      setSubscribeMessage({ type: 'error', text: t.newsletter.errorInvalid });
       return;
     }
 
@@ -228,17 +230,17 @@ const AppContent: React.FC = () => {
       if (error) {
         // Check if email already exists
         if (error.code === '23505') {
-          setSubscribeMessage({ type: 'error', text: 'This email is already subscribed!' });
+          setSubscribeMessage({ type: 'error', text: t.newsletter.errorExists });
         } else {
           throw error;
         }
       } else {
-        setSubscribeMessage({ type: 'success', text: 'Success! Check your email for insights.' });
+        setSubscribeMessage({ type: 'success', text: t.newsletter.successMessage });
         setSubscribeEmail('');
       }
     } catch (error) {
       console.error('Error subscribing email:', error);
-      setSubscribeMessage({ type: 'error', text: 'Something went wrong. Please try again.' });
+      setSubscribeMessage({ type: 'error', text: t.newsletter.errorGeneric });
     } finally {
       setIsSubscribing(false);
     }
@@ -272,8 +274,8 @@ const AppContent: React.FC = () => {
               <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
             </svg>
             <div>
-              <h4 className="font-bold text-lg">Payment Successful!</h4>
-              <p className="text-sm mt-1 text-green-100">Your order has been confirmed. Check your email for details.</p>
+              <h4 className="font-bold text-lg">{t.messages.paymentSuccess}</h4>
+              <p className="text-sm mt-1 text-green-100">{t.messages.paymentSuccessDetail}</p>
             </div>
             <button onClick={() => setShowSuccessMessage(false)} className="ml-auto text-white/80 hover:text-white">
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
@@ -290,8 +292,8 @@ const AppContent: React.FC = () => {
               <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
             </svg>
             <div>
-              <h4 className="font-bold text-lg">Checkout Canceled</h4>
-              <p className="text-sm mt-1 text-amber-100">No charges were made. Your cart is still available.</p>
+              <h4 className="font-bold text-lg">{t.messages.checkoutCanceled}</h4>
+              <p className="text-sm mt-1 text-amber-100">{t.messages.checkoutCanceledDetail}</p>
             </div>
             <button onClick={() => setShowCancelMessage(false)} className="ml-auto text-white/80 hover:text-white">
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
@@ -314,7 +316,7 @@ const AppContent: React.FC = () => {
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
-              Back to Shop
+              {t.about.backToShop}
             </button>
             <About />
           </section>
@@ -332,7 +334,7 @@ const AppContent: React.FC = () => {
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
-              Back to Shop
+              {t.about.backToShop}
             </button>
             <PurchaseHistory />
           </section>
@@ -343,8 +345,8 @@ const AppContent: React.FC = () => {
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16" id="products" aria-labelledby="products-heading">
           <div className="flex flex-col md:flex-row justify-between items-end mb-12">
             <div>
-              <h2 id="products-heading" className="text-3xl font-bold font-serif text-white mb-2">Curated Tools</h2>
-              <p className="text-gray-300">Digital artifacts to enhance your cognition.</p>
+              <h2 id="products-heading" className="text-3xl font-bold font-serif text-white mb-2">{t.products.heading}</h2>
+              <p className="text-gray-300">{t.products.description}</p>
             </div>
             
             <div className="flex gap-2 mt-4 md:mt-0" role="group" aria-label="Filter products by category">
@@ -360,7 +362,7 @@ const AppContent: React.FC = () => {
                   aria-pressed={selectedCategory === category}
                   aria-label={`Filter by ${category}`}
                 >
-                  {category === 'System' ? 'Systems' : category === 'Guide' ? 'Guides' : category}
+                  {category === 'All' ? t.products.filterAll : category === 'System' ? t.products.filterSystems : t.products.filterGuides}
                 </button>
               ))}
               <button
@@ -368,7 +370,7 @@ const AppContent: React.FC = () => {
                 className="px-4 py-2 text-xs uppercase tracking-wide font-medium rounded-md transition-colors bg-cement/50 text-gray-300 hover:bg-cement hover:text-white"
                 aria-label="View reviews"
               >
-                Reviews
+                {t.products.reviews}
               </button>
             </div>
           </div>
@@ -383,15 +385,15 @@ const AppContent: React.FC = () => {
             ))}
           </div>
           {filteredProducts.length === 0 && (
-            <p className="text-center text-gray-300 mt-8" role="status">No products found in this category.</p>
+            <p className="text-center text-gray-300 mt-8" role="status">{t.products.noProducts}</p>
           )}
 
           {/* Bundle Section - Only show when viewing "All" products */}
           {selectedCategory === 'All' && BUNDLES.map(bundle => (
             <div key={bundle.id} className="mt-12">
               <div className="text-center mb-8">
-                <h3 className="text-3xl font-serif font-bold text-white mb-2">💎 Best Value Bundle</h3>
-                <p className="text-gray-300">Get our top 3 systems together and save big</p>
+                <h3 className="text-3xl font-serif font-bold text-white mb-2">{t.products.bundleTitle}</h3>
+                <p className="text-gray-300">{t.products.bundleDescription}</p>
               </div>
               <BundleCard 
                 bundle={bundle} 
@@ -406,17 +408,17 @@ const AppContent: React.FC = () => {
 
         <section className="bg-charcoal border-t border-cement py-24 mt-16" aria-labelledby="newsletter-heading">
           <div className="max-w-4xl mx-auto px-4 text-center">
-            <h2 id="newsletter-heading" className="text-3xl font-serif font-bold text-white mb-6">Join 12,000+ Strategic Thinkers</h2>
+            <h2 id="newsletter-heading" className="text-3xl font-serif font-bold text-white mb-6">{t.newsletter.title}</h2>
             <p className="text-gray-300 mb-8 leading-relaxed">
-              Get exclusive weekly insights on knowledge management, mental models, and cognitive tools that give you an unfair advantage. 
-              <span className="block mt-2 text-purple-400">No fluff. Just actionable intelligence you can use Monday morning.</span>
+              {t.newsletter.description}
+              <span className="block mt-2 text-purple-400">{t.newsletter.tagline}</span>
             </p>
             <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto" aria-label="Newsletter subscription form">
               <label htmlFor="newsletter-email" className="sr-only">Email address</label>
               <input
                 id="newsletter-email"
                 type="email" 
-                placeholder="Enter your email" 
+                placeholder={t.newsletter.placeholder}
                 value={subscribeEmail}
                 onChange={(e) => setSubscribeEmail(e.target.value)}
                 required
@@ -429,7 +431,7 @@ const AppContent: React.FC = () => {
                 disabled={isSubscribing}
                 className="px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all transform hover:scale-105 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
               >
-                {isSubscribing ? 'Subscribing...' : 'Get Free Insights'}
+                {isSubscribing ? t.newsletter.subscribing : t.newsletter.button}
               </button>
             </form>
             
@@ -443,7 +445,7 @@ const AppContent: React.FC = () => {
               </div>
             )}
             
-            <p className="mt-4 text-sm text-gray-400">🔒 We respect your inbox. Unsubscribe anytime.</p>
+            <p className="mt-4 text-sm text-gray-400">{t.newsletter.privacy}</p>
           </div>
         </section>
           </>
@@ -452,12 +454,12 @@ const AppContent: React.FC = () => {
 
       <footer className="bg-obsidian border-t border-cement py-12" role="contentinfo">
         <div className="max-w-7xl mx-auto px-4 text-center text-sm text-gray-400">
-          <p>&copy; {new Date().getFullYear()} MindsCraft Digital. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} {t.footer.copyright}</p>
           <nav className="mt-4 space-x-4" aria-label="Footer navigation">
-            <button onClick={handleNavigateToAbout} className="hover:text-gray-200 transition-colors">About</button>
-            <a href="#privacy" className="hover:text-gray-200 transition-colors">Privacy</a>
-            <a href="#terms" className="hover:text-gray-200 transition-colors">Terms</a>
-            <a href="#support" className="hover:text-gray-200 transition-colors">Support</a>
+            <button onClick={handleNavigateToAbout} className="hover:text-gray-200 transition-colors">{t.footer.about}</button>
+            <a href="#privacy" className="hover:text-gray-200 transition-colors">{t.footer.privacy}</a>
+            <a href="#terms" className="hover:text-gray-200 transition-colors">{t.footer.terms}</a>
+            <a href="#support" className="hover:text-gray-200 transition-colors">{t.footer.support}</a>
           </nav>
         </div>
       </footer>
@@ -495,9 +497,11 @@ const AppContent: React.FC = () => {
 
 const App: React.FC = () => {
   return (
-    <AuthProvider>
-      <AppContent />
-    </AuthProvider>
+    <LanguageProvider>
+      <AuthProvider>
+        <AppContent />
+      </AuthProvider>
+    </LanguageProvider>
   );
 };
 
