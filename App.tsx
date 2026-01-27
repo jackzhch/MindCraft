@@ -65,6 +65,18 @@ const AppContent: React.FC = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  // Handle navigation from About to Products
+  const handleExploreSystemsFromAbout = () => {
+    setShowAbout(false);
+    setSelectedCategory('All');
+    setTimeout(() => {
+      const productsSection = document.getElementById('products');
+      if (productsSection) {
+        productsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100);
+  };
+
   // Exit Intent Detection
   useEffect(() => {
     // Check if user has already seen the exit intent modal
@@ -262,7 +274,6 @@ const AppContent: React.FC = () => {
           setShowPurchaseHistory(true);
         }}
         onSystemsClick={() => handleCategoryChange('System')}
-        onReviewsClick={handleNavigateToReviews}
         onAboutClick={handleNavigateToAbout}
       />
       
@@ -318,7 +329,7 @@ const AppContent: React.FC = () => {
               </svg>
               {t.about.backToShop}
             </button>
-            <About />
+            <About onExploreSystemsClick={handleExploreSystemsFromAbout} />
           </section>
         ) : showPurchaseHistory ? (
           <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24" aria-labelledby="purchase-history-heading">

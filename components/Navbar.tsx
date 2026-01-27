@@ -10,11 +10,10 @@ interface NavbarProps {
   onAuthClick: () => void;
   onPurchasesClick: () => void;
   onSystemsClick: () => void;
-  onReviewsClick: () => void;
   onAboutClick: () => void;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ cartCount, onOpenCart, onAuthClick, onPurchasesClick, onSystemsClick, onReviewsClick, onAboutClick }) => {
+const Navbar: React.FC<NavbarProps> = ({ cartCount, onOpenCart, onAuthClick, onPurchasesClick, onSystemsClick, onAboutClick }) => {
   const { t } = useLanguage();
   
   return (
@@ -40,12 +39,6 @@ const Navbar: React.FC<NavbarProps> = ({ cartCount, onOpenCart, onAuthClick, onP
                 className="hover:text-white transition-colors"
               >
                 {t.nav.about}
-              </button>
-              <button 
-                onClick={onReviewsClick}
-                className="hover:text-white transition-colors"
-              >
-                {t.nav.reviews}
               </button>
               <button 
                 onClick={onPurchasesClick}

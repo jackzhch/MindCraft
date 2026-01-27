@@ -1,7 +1,11 @@
 import React from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 
-const About: React.FC = () => {
+interface AboutProps {
+  onExploreSystemsClick?: () => void;
+}
+
+const About: React.FC<AboutProps> = ({ onExploreSystemsClick }) => {
   const { t } = useLanguage();
   
   return (
@@ -185,12 +189,12 @@ const About: React.FC = () => {
           <p className="text-gray-300 mb-8 max-w-2xl mx-auto">
             {t.about.ctaDescription}
           </p>
-          <a 
-            href="#products" 
+          <button 
+            onClick={onExploreSystemsClick}
             className="inline-block px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold rounded-full hover:from-purple-700 hover:to-pink-700 transition-all transform hover:scale-105 shadow-lg shadow-purple-500/25"
           >
             {t.about.ctaButton}
-          </a>
+          </button>
         </div>
       </section>
     </div>

@@ -2,10 +2,10 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { Language } from '../translations';
 
-const languages: { code: Language; name: string; flag: string }[] = [
-  { code: 'en', name: 'English', flag: '🇺🇸' },
-  { code: 'zh', name: '中文', flag: '🇨🇳' },
-  { code: 'ja', name: '日本語', flag: '🇯🇵' },
+const languages: { code: Language; name: string; abbr: string; flag: string }[] = [
+  { code: 'en', name: 'English', abbr: 'EN', flag: '🇺🇸' },
+  { code: 'zh', name: '中文', abbr: 'ZH', flag: '🇨🇳' },
+  { code: 'ja', name: '日本語', abbr: 'JA', flag: '🇯🇵' },
 ];
 
 const LanguageSwitcher: React.FC = () => {
@@ -36,12 +36,12 @@ const LanguageSwitcher: React.FC = () => {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-3 py-2 text-gray-300 hover:text-white transition-colors rounded-lg hover:bg-cement/30"
+        className="flex items-center gap-1.5 px-2.5 py-2 text-gray-300 hover:text-white transition-colors rounded-lg hover:bg-cement/30"
         aria-label="Change language"
         aria-expanded={isOpen}
       >
         <span className="text-lg">{currentLanguage?.flag}</span>
-        <span className="hidden md:inline text-sm font-medium">{currentLanguage?.name}</span>
+        <span className="text-sm font-medium">{currentLanguage?.abbr}</span>
         <svg 
           className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} 
           fill="none" 
