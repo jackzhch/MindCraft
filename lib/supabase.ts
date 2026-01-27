@@ -32,3 +32,11 @@ export interface UserProfile {
   updated_at: string;
 }
 
+export interface EmailSubscriber {
+  id: string;
+  email: string;
+  source: string;
+  subscribed_at: string;
+  metadata?: Record<string, any>;
+}
+

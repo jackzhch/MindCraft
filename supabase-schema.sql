@@ -85,11 +85,35 @@ CREATE TRIGGER on_profile_updated
   BEFORE UPDATE ON public.profiles
   FOR EACH ROW EXECUTE FUNCTION public.handle_updated_at();
 
+-- Create email subscribers table for "Get Free Insights"
+CREATE TABLE IF NOT EXISTS public.email_subscribers (
+  id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+  email TEXT NOT NULL UNIQUE,
+  source TEXT DEFAULT 'hero_insights',
+  subscribed_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  metadata JSONB DEFAULT '{}'::jsonb
+);
+
+-- Enable RLS for email_subscribers
+ALTER TABLE public.email_subscribers ENABLE ROW LEVEL SECURITY;
+
+-- Policy to allow anyone to insert (for public signup)
+CREATE POLICY "Anyone can subscribe"
+  ON public.email_subscribers FOR INSERT
+  WITH CHECK (true);
+
+-- Policy to allow service role to read
+CREATE POLICY "Service role can view subscribers"
+  ON public.email_subscribers FOR SELECT
+  USING (true);
+
 -- Create indexes for better query performance
 CREATE INDEX IF NOT EXISTS idx_purchases_user_id ON public.purchases(user_id);
 CREATE INDEX IF NOT EXISTS idx_purchases_customer_email ON public.purchases(customer_email);
 CREATE INDEX IF NOT EXISTS idx_purchases_created_at ON public.purchases(created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_profiles_email ON public.profiles(email);
+CREATE INDEX IF NOT EXISTS idx_email_subscribers_email ON public.email_subscribers(email);
+CREATE INDEX IF NOT EXISTS idx_email_subscribers_subscribed_at ON public.email_subscribers(subscribed_at DESC);
 
 -- Grant necessary permissions
 GRANT USAGE ON SCHEMA public TO anon, authenticated;

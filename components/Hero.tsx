@@ -1,10 +1,60 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { supabase } from '../lib/supabase';
 
 interface HeroProps {
   onManifestoClick?: () => void;
 }
 
 const Hero: React.FC<HeroProps> = ({ onManifestoClick }) => {
+  const [email, setEmail] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
+  const handleSubmitEmail = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Basic email validation
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setMessage({ type: 'error', text: 'Please enter a valid email address' });
+      return;
+    }
+
+    setIsLoading(true);
+    setMessage(null);
+
+    try {
+      const { error } = await supabase
+        .from('email_subscribers')
+        .insert([
+          {
+            email: email.toLowerCase().trim(),
+            source: 'hero_insights',
+            metadata: {
+              timestamp: new Date().toISOString(),
+              userAgent: navigator.userAgent,
+            }
+          }
+        ]);
+
+      if (error) {
+        // Check if email already exists
+        if (error.code === '23505') {
+          setMessage({ type: 'error', text: 'This email is already subscribed!' });
+        } else {
+          throw error;
+        }
+      } else {
+        setMessage({ type: 'success', text: 'Success! Check your email for insights.' });
+        setEmail('');
+      }
+    } catch (error) {
+      console.error('Error subscribing email:', error);
+      setMessage({ type: 'error', text: 'Something went wrong. Please try again.' });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="relative overflow-hidden pt-32 pb-20 lg:pt-48 lg:pb-32">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
@@ -31,6 +81,37 @@ const Hero: React.FC<HeroProps> = ({ onManifestoClick }) => {
           >
             Our Manifesto
           </button>
+        </div>
+
+        {/* Email Subscription Form */}
+        <div className="mt-12 max-w-md mx-auto">
+          <form onSubmit={handleSubmitEmail} className="flex flex-col sm:flex-row gap-3">
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your email for free insights"
+              className="flex-1 px-6 py-3 bg-gray-800/50 border border-gray-600 rounded-full text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+              disabled={isLoading}
+            />
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="px-8 py-3 bg-gradient-to-r from-accent to-purple-500 text-white font-semibold rounded-full hover:from-purple-500 hover:to-accent transition-all transform hover:scale-105 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+            >
+              {isLoading ? 'Subscribing...' : 'Get Free Insights'}
+            </button>
+          </form>
+          
+          {message && (
+            <div className={`mt-4 p-3 rounded-lg text-center text-sm font-medium ${
+              message.type === 'success' 
+                ? 'bg-green-500/10 text-green-400 border border-green-500/30' 
+                : 'bg-red-500/10 text-red-400 border border-red-500/30'
+            }`}>
+              {message.text}
+            </div>
+          )}
         </div>
       </div>
       
