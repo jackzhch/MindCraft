@@ -14,6 +14,7 @@ import ExitIntentModal from './components/ExitIntentModal';
 import About from './components/About';
 import { PRODUCTS, BUNDLES } from './constants';
 import { Product, CartItem } from './types';
+import { supabase } from './lib/supabase';
 
 const AppContent: React.FC = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
@@ -27,6 +28,8 @@ const AppContent: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [subscribeEmail, setSubscribeEmail] = useState('');
   const [showExitIntent, setShowExitIntent] = useState(false);
+  const [isSubscribing, setIsSubscribing] = useState(false);
+  const [subscribeMessage, setSubscribeMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
 
   // Handle navigation to reviews section
   const handleNavigateToReviews = () => {
@@ -196,12 +199,48 @@ const AppContent: React.FC = () => {
     : PRODUCTS.filter(product => product.category === selectedCategory);
 
   // Handle newsletter subscription
-  const handleSubscribe = (e: React.FormEvent) => {
+  const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (subscribeEmail) {
-      // TODO: Implement actual newsletter subscription (e.g., via API)
-      alert(`Thank you for subscribing with ${subscribeEmail}!`);
-      setSubscribeEmail('');
+    
+    // Basic email validation
+    if (!subscribeEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(subscribeEmail)) {
+      setSubscribeMessage({ type: 'error', text: 'Please enter a valid email address' });
+      return;
+    }
+
+    setIsSubscribing(true);
+    setSubscribeMessage(null);
+
+    try {
+      const { error } = await supabase
+        .from('email_subscribers')
+        .insert([
+          {
+            email: subscribeEmail.toLowerCase().trim(),
+            source: 'newsletter_section',
+            metadata: {
+              timestamp: new Date().toISOString(),
+              userAgent: navigator.userAgent,
+            }
+          }
+        ]);
+
+      if (error) {
+        // Check if email already exists
+        if (error.code === '23505') {
+          setSubscribeMessage({ type: 'error', text: 'This email is already subscribed!' });
+        } else {
+          throw error;
+        }
+      } else {
+        setSubscribeMessage({ type: 'success', text: 'Success! Check your email for insights.' });
+        setSubscribeEmail('');
+      }
+    } catch (error) {
+      console.error('Error subscribing email:', error);
+      setSubscribeMessage({ type: 'error', text: 'Something went wrong. Please try again.' });
+    } finally {
+      setIsSubscribing(false);
     }
   };
 
@@ -381,13 +420,29 @@ const AppContent: React.FC = () => {
                 value={subscribeEmail}
                 onChange={(e) => setSubscribeEmail(e.target.value)}
                 required
+                disabled={isSubscribing}
                 aria-required="true"
-                className="flex-1 px-4 py-3 bg-obsidian border border-cement rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="flex-1 px-4 py-3 bg-obsidian border border-cement rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
               />
-              <button type="submit" className="px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all transform hover:scale-105 shadow-lg">
-                Get Free Insights
+              <button 
+                type="submit" 
+                disabled={isSubscribing}
+                className="px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-lg hover:from-purple-700 hover:to-pink-700 transition-all transform hover:scale-105 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+              >
+                {isSubscribing ? 'Subscribing...' : 'Get Free Insights'}
               </button>
             </form>
+            
+            {subscribeMessage && (
+              <div className={`mt-4 p-3 rounded-lg text-center text-sm font-medium max-w-md mx-auto ${
+                subscribeMessage.type === 'success' 
+                  ? 'bg-green-500/10 text-green-400 border border-green-500/30' 
+                  : 'bg-red-500/10 text-red-400 border border-red-500/30'
+              }`}>
+                {subscribeMessage.text}
+              </div>
+            )}
+            
             <p className="mt-4 text-sm text-gray-400">🔒 We respect your inbox. Unsubscribe anytime.</p>
           </div>
         </section>
